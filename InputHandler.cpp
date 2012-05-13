@@ -30,6 +30,7 @@ void InputHandler::handleKeys() {
 				keyPressedEvent->addProperty(key);
 
 				std::cout << "Taste gedrueckt" << std::endl;
+
 				IBaseEventManager::Get()->VQueueEvent(keyPressedEvent);
 				break;
 			case sf::Event::KeyReleased:
