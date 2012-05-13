@@ -25,9 +25,9 @@ bool EventManagerImpl::VAddEventListener(const EventListenerPtr& p_listener, con
 				//TODO add Log
 				return false;
 			}
-
-			eventListenerList.push_back(p_listener);
 		}
+		eventListenerList.push_back(p_listener);
+		std::cout << "Added New EventListener!" << std::endl;
 	}
 	return true;
 }

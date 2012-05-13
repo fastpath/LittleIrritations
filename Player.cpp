@@ -3,6 +3,7 @@
 
 Player::Player(void)
 {
+	std::cout << "Player created" << std::endl;
 }
 
 
@@ -20,9 +21,10 @@ bool Player::VprocessEvent(EventPtr p_event)
 	switch (p_event->GetEventType())
 	{
 	case KEY_PRESSED:
-
+		std::cout << "Event beim Player angekommen!" << std::endl;
 		break;
 	default:
+		std::cout << "Default!" << std::endl;
 		break;
 	}
 

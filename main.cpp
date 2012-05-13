@@ -9,6 +9,7 @@
 #include "AbstractActor.h"
 #include "MovableActor.h"
 #include "Pose.h"
+#include "Player.h"
 #include "ActorManager.h"
 #include "InputHandler.h"
 #include "EventManagerImpl.h"
@@ -60,6 +61,12 @@ void initialize(void)
 	moveAstr3->setScale(0.5,0.5);
 	moveAstr3->accelerate(Pose(0.0,0.0,30));
 	ActorManager::addActor(astroid3);
+
+	// Event Testing
+	boost::shared_ptr<Player> player(new Player());
+	std::list<EventType> cacheList;
+	cacheList.push_back(KEY_PRESSED);
+	m_evtMgr->VAddEventListener(player, cacheList);
 }
 
 int main ()
@@ -73,6 +80,7 @@ int main ()
 	sf::ContextSettings cs = Window->getSettings();
 
 	//ActorManager::getNewMovableActor("cody");
+	
 
 	sf::Clock clock;
 
@@ -81,7 +89,6 @@ int main ()
 	sf::Time currentTime = clock.getElapsedTime();
 
 	Window->setFramerateLimit(FRAMERATE);
-
 		
 	std::cout << "Creating InputHandler" << std::endl;
 	boost::shared_ptr<InputHandler> input(new InputHandler(Window));
@@ -125,10 +132,13 @@ int main ()
             frameTime -= DT;
             t += deltaTime;
          }
+
 		Window->clear(sf::Color(0,255,255));
-		/*BOOST_FOREACH (boost::shared_ptr<MovableActor> actor, actors) {
+		/*
+		BOOST_FOREACH (boost::shared_ptr<MovableActor> actor, actors) {
 			Window->draw(*actor);
-		}*/
+		}
+		*/
 		Window->display();
 	}
 
