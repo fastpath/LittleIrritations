@@ -23,7 +23,7 @@ public:
 
 	bool HasProperty(PropertyType& p_type);
 	void addProperty(PropertyPtr p_property);
-	Property GetProperty(PropertyType& p_type);
+	PropertyPtr GetProperty(PropertyType p_type);
 
 private:
 	std::map<PropertyType,PropertyPtr>  m_properties;

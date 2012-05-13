@@ -1,6 +1,8 @@
 #pragma once
 #include "AbstractActor.h"
 #include "IEventListener.h"
+#include "Property.h"
+#include <SFML/Window/Keyboard.hpp>
 
 
 class Player : public IEventListener

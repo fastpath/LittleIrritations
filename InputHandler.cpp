@@ -17,25 +17,22 @@ void InputHandler::handleKeys() {
 		sf::Event sfmlEvent;
 		while (m_app->pollEvent(sfmlEvent))
 		{
-			EventPtr keyPressedEvent(new Event(KEY_PRESSED,0.0f));
-			EventPtr keyRepeatEvent(new Event(KEY_REPEAT,0.0f));
-			PropertyPtr key;
 			switch (sfmlEvent.type)
 			{
-			case sf::Event::Closed:
+			case sf::Event::Closed: {
 				m_app->close();
 				break;
-			case sf::Event::KeyPressed:
-				key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
+			}
+			case sf::Event::KeyPressed: {
+				EventPtr keyPressedEvent(new Event(KEY_PRESSED,0.0f));
+				PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
 				keyPressedEvent->addProperty(key);
-
-				std::cout << "Taste gedrueckt" << std::endl;
-
 				IBaseEventManager::Get()->VQueueEvent(keyPressedEvent);
 				break;
-			case sf::Event::KeyReleased:
-				
-
+			}
+			case sf::Event::KeyReleased: {
+				break;
+			}
 			default:
 				break;
 			}
