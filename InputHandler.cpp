@@ -19,24 +19,34 @@ void InputHandler::handleKeys() {
 		{
 			switch (sfmlEvent.type)
 			{
-			case sf::Event::Closed: {
-				m_app->close();
-				break;
-			}
-			case sf::Event::KeyPressed: {
-				EventPtr keyPressedEvent(new Event(KEY_PRESSED,0.0f));
-				PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
-				keyPressedEvent->addProperty(key);
-				IBaseEventManager::Get()->VQueueEvent(keyPressedEvent);
-				break;
-			}
-			case sf::Event::KeyReleased: {
-				break;
-			}
-			default:
-				break;
-			}
+				// CloseEvent
+				case sf::Event::Closed: {
+					m_app->close();
+					break;
+				}
+				// KeyPressed
+				case sf::Event::KeyPressed: {
+					EventPtr newEvent(new Event(KEY_PRESSED,0.0f));
+					PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
+					newEvent->addProperty(key);
+					IBaseEventManager::Get()->VQueueEvent(newEvent);
+				}break;
+				// KeyReleased
+				case sf::Event::KeyReleased: {
 
+				}break;
+				// MouseMoved
+				case sf::Event::MouseMoved:{/*
+					EventPtr newEvent(new Event(MOUSE_MOVED,0.0f));
+					PropertyPtr key = PropertyPtr(new TProperty<sf::Mouse::>(POSE,sfmlEvent.mouseButton.));
+					newEvent->addProperty(key);
+					IBaseEventManager::Get()->VQueueEvent(newEvent);
+					*/
+				} break;
+				default:
+					//std::cout << "Event Type not found!" << std::endl;
+				return;
+			}
 			
 		}
 
