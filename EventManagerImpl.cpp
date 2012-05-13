@@ -12,23 +12,31 @@ EventManagerImpl::~EventManagerImpl(void)
 	//
 }
 
-bool EventManagerImpl::VAddEventListener(const EventListenerPtr& p_listener, const EventTypeList p_types)
+bool EventManagerImpl::VAddEventListener(const EventListenerPtr& p_listener, int p_typeCount, ...)
 {
-	for (auto itTypes = p_types.begin(); itTypes != p_types.end(); ++itTypes)
+	va_list params; // Zugriffshandle für Parameter
+    int intpar;     // Parameterinhalt
+    va_start(params, p_typeCount); // Zugriff vorbereiten
+	bool found = false;
+
+	std::cout << "EventListener should be added" << std::endl;
+	for (int i=0; i<p_typeCount; ++i)
 	{
-		EventType currType = *itTypes;
+		EventType currType = va_arg(params,EventType);
 		EventListenerList& eventListenerList = m_eventListeners[currType];
 		for (auto itListener = eventListenerList.begin(); itListener != eventListenerList.end(); ++itListener)
 		{
 			if (p_listener == (*itListener))
 			{
 				//TODO add Log
-				return false;
+				found = true;
 			}
 		}
-		eventListenerList.push_back(p_listener);
-		std::cout << "Added New EventListener!" << std::endl;
+		if (found == false) {
+			eventListenerList.push_back(p_listener);
+		}
 	}
+	va_end(params); // Zugriff abschließen
 	return true;
 }
 

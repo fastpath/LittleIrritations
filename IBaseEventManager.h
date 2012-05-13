@@ -1,6 +1,7 @@
 #pragma once
 #include "IEventListener.h"
 #include <list>
+#include <stdarg.h>
 
 typedef std::list<EventType> EventTypeList;
 typedef boost::shared_ptr<IEventListener> EventListenerPtr;
@@ -11,7 +12,7 @@ public:
 	IBaseEventManager(const char* p_name, bool p_setAsGLobal);
 	~IBaseEventManager(void);
 
-	virtual bool VAddEventListener(const EventListenerPtr& p_listener, const EventTypeList p_types) = 0;
+	virtual bool VAddEventListener(const EventListenerPtr& p_listener, int p_typeCount, ...) = 0;
 	virtual bool VRemoveEventListener(const EventListenerPtr& p_listener) = 0;
 	virtual bool VAddEventTypeToListener(const EventListenerPtr& p_listener, const EventTypeList p_types) = 0;
 

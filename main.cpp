@@ -64,9 +64,7 @@ void initialize(void)
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
-	std::list<EventType> cacheList;
-	cacheList.push_back(KEY_PRESSED);
-	m_evtMgr->VAddEventListener(player, cacheList);
+	m_evtMgr->VAddEventListener(player, 1, KEY_PRESSED);
 }
 
 int main ()

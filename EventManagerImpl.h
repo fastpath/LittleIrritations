@@ -19,7 +19,7 @@ public:
 	EventManagerImpl(const char* p_name, bool setAsGlobal);
 	~EventManagerImpl(void);
 
-	virtual bool VAddEventListener(const EventListenerPtr& p_listener, const EventTypeList p_types);
+	virtual bool VAddEventListener(const EventListenerPtr& p_listener, int p_typeCount, ...);
 	virtual bool VRemoveEventListener(const EventListenerPtr& p_listener);
 	virtual bool VAddEventTypeToListener(const EventListenerPtr& p_listener, const EventTypeList p_types);
 
