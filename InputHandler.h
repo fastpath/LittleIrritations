@@ -6,6 +6,7 @@
 #include <iostream>
 #include "EventManagerImpl.h"
 #include "Property.h"
+#include "Pose.h"
 
 const float KEY_REPEAT_DELTA = 200;
 

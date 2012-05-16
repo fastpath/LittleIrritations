@@ -25,6 +25,7 @@ public:
 	}
 	~TProperty(void) {}
 	T GetValue(void) {return (*m_value); }
+	boost::shared_ptr<T> GetValuePtr(void) {return m_value; }
 private:
 	boost::shared_ptr<T> m_value;
 };

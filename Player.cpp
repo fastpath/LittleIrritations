@@ -21,10 +21,9 @@ bool Player::VprocessEvent(EventPtr p_event)
 	switch (p_event->GetEventType())
 	{
 	case KEY_PRESSED: {
-		std::cout << "Key Pressed Event beim Player angekommen!" << std::endl;
-		PropertyPtr key = p_event->GetProperty(KEY);
-		boost::shared_ptr<TProperty<sf::Keyboard::Key>> tmp = boost::shared_static_cast<TProperty<sf::Keyboard::Key>>(key);
-		sf::Keyboard::Key pressedKey = tmp->GetValue();
+		std::cout << "Key Pressed Event beim Player angekommen!   ";
+		sf::Keyboard::Key pressedKey;
+		p_event->GetProperty(pressedKey,KEY);
 		switch (pressedKey) {
 			case sf::Keyboard::Up: {
 				std::cout << "Oben gedrueckt" << std::endl;
@@ -45,6 +44,18 @@ bool Player::VprocessEvent(EventPtr p_event)
 			default:
 				std::cout << "Irgendeine Taste wurde gedrueckt" << std::endl;
 		}
+		
+		break;
+	}
+	case MOUSE_MOVED: {
+		std::cout << "Mouse Moved Event beim Player angekommen!   ";
+		Pose tmpPos;
+		p_event->GetProperty(tmpPos,POSE);
+		std::cout << "Position " << tmpPos << std::endl;
+		break;
+	}
+	case KEY_RELEASED: {
+		std::cout << "Key Released Event beim Player angekommen!" << std::endl;
 		break;
 	}
 	default:

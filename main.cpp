@@ -64,7 +64,7 @@ void initialize(void)
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
-	m_evtMgr->VAddEventListener(player, 1, KEY_PRESSED);
+	m_evtMgr->VAddEventListener(player, 3, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED);
 }
 
 int main ()
@@ -72,7 +72,7 @@ int main ()
 
 	initialize();
 
-	boost::shared_ptr<sf::RenderWindow> Window(new sf::RenderWindow(sf::VideoMode(800,600,32),"Crack the Sky"));
+	boost::shared_ptr<sf::RenderWindow> Window(new sf::RenderWindow(sf::VideoMode(800,600,32),"Little Irritations"));
 	Window->setKeyRepeatEnabled(false);
 	
 	sf::ContextSettings cs = Window->getSettings();
@@ -98,8 +98,9 @@ int main ()
 		float frameTime = newTime.asSeconds() - currentTime.asSeconds();
 		//std::cout << " time  " << frameTime << std::endl;
         currentTime = newTime;
-		
+
 		input->handleKeys();
+
 
 		//sf::Vector2f direction = actors[0]->getAcceleration().getVector2f();
 		//std::cout << "Acc x " << cody->getAcceleration().getDirection().x << "  y " << cody->getAcceleration().getDirection().y << std::endl;

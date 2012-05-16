@@ -23,7 +23,15 @@ public:
 
 	bool HasProperty(PropertyType& p_type);
 	void addProperty(PropertyPtr p_property);
-	PropertyPtr GetProperty(PropertyType p_type);
+
+	//PropertyPtr GetProperty(PropertyType p_type);
+	template <typename T>
+	void GetProperty(T& value, PropertyType p_type) {
+		PropertyPtr prop = m_properties[p_type];
+		boost::shared_ptr<TProperty<T>> tmp = boost::shared_static_cast<TProperty<T>>(prop);
+		value = tmp->GetValue();
+	}
+
 
 private:
 	std::map<PropertyType,PropertyPtr>  m_properties;

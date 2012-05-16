@@ -20,7 +20,7 @@ void Event::addProperty(PropertyPtr p_property)
 	m_properties[p_property->GetType()] = p_property;
 }
 
-PropertyPtr Event::GetProperty(PropertyType p_type)
+/*PropertyPtr Event::GetProperty(PropertyType p_type)
 {
 	return m_properties[p_type];
-}
+}*/

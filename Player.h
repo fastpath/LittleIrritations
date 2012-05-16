@@ -3,6 +3,7 @@
 #include "IEventListener.h"
 #include "Property.h"
 #include <SFML/Window/Keyboard.hpp>
+#include "Pose.h"
 
 
 class Player : public IEventListener
