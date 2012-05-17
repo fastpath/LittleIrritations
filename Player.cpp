@@ -48,10 +48,28 @@ bool Player::VprocessEvent(EventPtr p_event)
 		break;
 	}
 	case MOUSE_MOVED: {
-		std::cout << "Mouse Moved Event beim Player angekommen!   ";
+		//std::cout << "Mouse Moved Event beim Player angekommen!   ";
 		Pose tmpPos;
 		p_event->GetProperty(tmpPos,POSE);
-		std::cout << "Position " << tmpPos << std::endl;
+		//std::cout << "Position " << tmpPos << std::endl;
+		break;
+	}
+	case MOUSE_DOWN: {
+		std::cout << "Mouse Down Event beim Player angekommen!   ";
+		Pose tmpPos;
+		p_event->GetProperty(tmpPos,POSE);
+		int buttonID;
+		p_event->GetProperty(buttonID, MOUSEBUTTON);
+		std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
+		break;
+	}
+	case MOUSE_UP: {
+		std::cout << "Mouse Up Event beim Player angekommen!   ";
+		Pose tmpPos;
+		p_event->GetProperty(tmpPos,POSE);
+		int buttonID;
+		p_event->GetProperty(buttonID, MOUSEBUTTON);
+		std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 		break;
 	}
 	case KEY_RELEASED: {
