@@ -6,19 +6,24 @@ class Pose
 {
 public:
 	Pose(void);
-	Pose(float x, float y, float z, float rot);
-	Pose(float x, float y, float rot);
-	Pose(float x, float y);
+	Pose(float p_x, float p_y, float p_z, float p_rot);
+	Pose(float p_x, float p_y, float p_rot);
+	Pose(float p_x, float p_y);
 	~Pose(void);
 
 	sf::Vector3f getVector3f();
 	sf::Vector2f getVector2f();
-
+	float getX(void);
+	float getY(void);
+	float getZ(void);
 	float getRotation();
 
-	friend std::ostream& operator<<(std::ostream& os, Pose& val) {
-		os << "(" << val.getVector3f().x  << ", " << val.getVector3f().y << "," << val.getVector3f().z << ")";
-		return os;
+	void setPosition(float p_x, float p_y, float p_z);
+	void setRotation(float p_rot);
+
+	friend std::ostream& operator<<(std::ostream& p_os, Pose& p_val) {
+		p_os << "(" << p_val.getVector3f().x  << ", " << p_val.getVector3f().y << "," << p_val.getVector3f().z << ") rot: " << p_val.getRotation();
+		return p_os;
 	}
 
 private:

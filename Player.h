@@ -2,7 +2,7 @@
 #include "AbstractActor.h"
 #include "IEventListener.h"
 #include "Property.h"
-#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window.hpp>
 #include "Pose.h"
 
 

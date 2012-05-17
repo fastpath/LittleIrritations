@@ -27,15 +27,19 @@ void InputHandler::handleKeys() {
 				// KeyPressed
 				case sf::Event::KeyPressed: {
 					EventPtr newEvent(new Event(KEY_PRESSED,0.0f));
+
 					PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
 					newEvent->addProperty(key);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				}break;
 				// KeyReleased
 				case sf::Event::KeyReleased: {
 					EventPtr newEvent(new Event(KEY_RELEASED,0.0f));
+
 					PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
 					newEvent->addProperty(key);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				}break;
 				// MouseMoved
@@ -65,7 +69,7 @@ void InputHandler::handleKeys() {
 					PropertyPtr button = PropertyPtr(new TProperty<sf::Mouse::Button>(MOUSEBUTTON, sfmlEvent.mouseButton.button));
 					newEvent->addProperty(button);
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
-				} break;
+				} break;				
 				default:
 					//std::cout << "Event Type not found!" << std::endl;
 				return;
