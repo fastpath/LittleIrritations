@@ -75,7 +75,7 @@ void initialize(void)
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
-	m_evtMgr->VAddEventListener(player, 5, KEY_PRESSED,KEY_RELEASED,MOUSE_MOVED,MOUSE_UP,MOUSE_DOWN);
+	m_evtMgr->VAddEventListener(player, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
 }
 
 int main ()

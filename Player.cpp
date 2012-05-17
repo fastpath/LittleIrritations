@@ -54,66 +54,37 @@ bool Player::VprocessEvent(EventPtr p_event)
 		case KEY_RELEASED: {
 			std::cout << "Key Released Event beim Player angekommen!" << std::endl;
 		}break;
-
+	
 		case MOUSE_MOVED: {
-			std::cout << "Mouse Moved Event beim Player angekommen!   ";
+			//std::cout << "Mouse Moved Event beim Player angekommen!   ";
 			Pose tmpPos;
 			p_event->GetProperty(tmpPos,POSE);
-			std::cout << "Position " << tmpPos << std::endl;
-		}break;
-
-		case MOUSE_UP: {
-			std::cout << "Mouse Up Event beim Player angekommen!  ";
-			Pose tmpPos;
-			p_event->GetProperty(tmpPos,POSE);
-			std::cout << "Position " << tmpPos;
-			
-			sf::Mouse::Button mouseButton;
-			p_event->GetProperty(mouseButton,BUTTON);
-			std::cout << "  MausTaste:  ";
-			switch (mouseButton) {
-				case sf::Mouse::Button::Left: {
-					std::cout << "Links";
-				}break;
-				case sf::Mouse::Button::Right: {
-					std::cout << "Rechts";
-				}break;
-				case sf::Mouse::Button::Middle: {
-					std::cout << "Mitte";
-				}break;
-			}
-			std::cout << std::endl;
-
-
-		}break;
-
+			//std::cout << "Position " << tmpPos << std::endl;
+			break;
+		}
 		case MOUSE_DOWN: {
-			std::cout << "Mouse Down Event beim Player angekommen!  ";
+			std::cout << "Mouse Down Event beim Player angekommen!   ";
 			Pose tmpPos;
 			p_event->GetProperty(tmpPos,POSE);
-			std::cout << "Position " << tmpPos;
-			
-			sf::Mouse::Button mouseButton;
-			p_event->GetProperty(mouseButton,BUTTON);
-						std::cout << "  MausTaste:  ";
-			switch (mouseButton) {
-				case sf::Mouse::Button::Left: {
-					std::cout << "Links";
-				}break;
-				case sf::Mouse::Button::Right: {
-					std::cout << "Rechts";
-				}break;
-				case sf::Mouse::Button::Middle: {
-					std::cout << "Mitte";
-				}break;
-			}
-			std::cout << std::endl;
-		}break;
-
-		default:
+			int buttonID;
+			p_event->GetProperty(buttonID, MOUSEBUTTON);
+			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
+			break;
+		}
+		case MOUSE_UP: {
+			std::cout << "Mouse Up Event beim Player angekommen!   ";
+			Pose tmpPos;
+			p_event->GetProperty(tmpPos,POSE);
+			int buttonID;
+			p_event->GetProperty(buttonID, MOUSEBUTTON);
+			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
+			break;
+		}
+		default:{
 			std::cout << "Default! Player.cpp" << std::endl;
 			break;
+				std::cout << std::endl;
+		}break;
 	}
-
 	return false;
 }
