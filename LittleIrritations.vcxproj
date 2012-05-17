@@ -97,6 +97,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Property.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +118,7 @@
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="PropertyType.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="TextureLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
