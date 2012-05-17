@@ -22,7 +22,6 @@ bool EventManagerImpl::VAddEventListener(const EventListenerPtr& p_listener, int
 	std::cout << "EventListener should be added" << std::endl;
 	for (int i=0; i<p_typeCount; ++i)
 	{
-		std::cout << "Type number one " << std::endl;
 		EventType currType = va_arg(params,EventType);
 		EventListenerList& eventListenerList = m_eventListeners[currType];
 		for (auto itListener = eventListenerList.begin(); itListener != eventListenerList.end(); ++itListener)

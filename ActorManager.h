@@ -5,7 +5,10 @@
 #include <map>
 #include <list>
 #include <iostream>
+#include <sstream>
 #include "libs\pugixml\pugixml.hpp"
+#include "Settings.h"
+#include "TextureLoader.h"
 
 class ActorManager
 {
@@ -17,7 +20,7 @@ public:
 	ActorManager(boost::shared_ptr<sf::RenderWindow> p_app);
 	~ActorManager(void);
 
-	ActorPtr getNewMovableActor(std::string p_fileName);
+	ActorPtr getNewMovableActor(std::string p_actorName);
 	void addActor(ActorPtr p_actor);
 	void update(float p_dt);
 
@@ -27,7 +30,7 @@ private:
 	static std::string s_xmlFolder;
 	boost::shared_ptr<sf::RenderWindow> m_app;
 	std::list<float> m_levels;
-
+	unsigned int m_globalId;
 
 };
 

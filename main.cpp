@@ -5,7 +5,6 @@
 #include <vector>
 #include <boost/foreach.hpp>
 #include "EnumNames.h"
-#include "TextureLoader.h"
 #include "AbstractActor.h"
 #include "MovableActor.h"
 #include "Pose.h"
@@ -13,6 +12,7 @@
 #include "ActorManager.h"
 #include "InputHandler.h"
 #include "EventManagerImpl.h"
+#include "Settings.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
@@ -20,12 +20,16 @@ const float EPSILON = 0.01;
 
 EventManagerImpl* m_evtMgr;
 ActorManager* m_actMgr;
+Settings* m_settings;
 boost::shared_ptr<sf::RenderWindow> Window;
 boost::shared_ptr<InputHandler> inputHandler;
 
 
 void initialize(void)
 {
+
+	m_settings = new Settings();
+
 	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(800,600,32),"Little Irritations"));
 	Window->setKeyRepeatEnabled(false);
 	sf::ContextSettings cs = Window->getSettings();
@@ -33,44 +37,19 @@ void initialize(void)
 
 	m_evtMgr = new EventManagerImpl("Super EventManager", true);
 	m_actMgr = new ActorManager(Window);
-	std::cout << "Creating InputHandler" << std::endl;
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
+	
 
-	boost::shared_ptr<AbstractActor> cody(new MovableActor(0));
-	boost::shared_ptr<MovableActor> moveCody = boost::shared_dynamic_cast<MovableActor>(cody);
-	moveCody->setTexture(*TextureLoader::getTexture("cody2_500x1000"));
-	moveCody->setPosition(300.0,300.0);
-	moveCody->setScale(0.2,0.2);
+	ActorPtr cody = ActorManager::Get()->getNewMovableActor("cody");
 	ActorManager::Get()->addActor(cody);
 
-	std::cout << moveCody->getTextureRect().height << std::endl;
-	std::cout << moveCody->getGlobalBounds().height << std::endl;
-
-	boost::shared_ptr<AbstractActor> astroid1(new MovableActor(1));
-	boost::shared_ptr<MovableActor> moveAstr1 = boost::shared_dynamic_cast<MovableActor>(astroid1);
-	moveAstr1->setTexture(*TextureLoader::getTexture("astroid1_600x500"));
-	moveAstr1->setPosition(500.0,500.0);
-	moveAstr1->setOrigin(300.0,250.0);
-	moveAstr1->setScale(0.3,0.3);
-	moveAstr1->accelerate(Pose(0.0,0.0,30));
+	ActorPtr astroid1 = ActorManager::Get()->getNewMovableActor("astroid1");
 	ActorManager::Get()->addActor(astroid1);
 
-	boost::shared_ptr<AbstractActor> astroid2(new MovableActor(2));
-	boost::shared_ptr<MovableActor> moveAstr2 = boost::shared_dynamic_cast<MovableActor>(astroid2);
-	moveAstr2->setTexture(*TextureLoader::getTexture("astroid2_600x500"));
-	moveAstr2->setPosition(300.0,400.0);
-	moveAstr2->setOrigin(300.0,250.0);
-	moveAstr2->setScale(0.4,0.4);
-	moveAstr2->accelerate(Pose(0.0,0.0,50));
+	ActorPtr astroid2 = ActorManager::Get()->getNewMovableActor("astroid2");
 	ActorManager::Get()->addActor(astroid2);
 
-	boost::shared_ptr<AbstractActor> astroid3(new MovableActor(3));
-	boost::shared_ptr<MovableActor> moveAstr3 = boost::shared_dynamic_cast<MovableActor>(astroid3);
-	moveAstr3->setTexture(*TextureLoader::getTexture("astroid3_550x700"));
-	moveAstr3->setPosition(200.0,300.0);
-	moveAstr3->setOrigin(225.0,350.0);
-	moveAstr3->setScale(0.5,0.5);
-	moveAstr3->accelerate(Pose(0.0,0.0,30));
+	ActorPtr astroid3 = ActorManager::Get()->getNewMovableActor("astroid3");
 	ActorManager::Get()->addActor(astroid3);
 
 	// Event Testing

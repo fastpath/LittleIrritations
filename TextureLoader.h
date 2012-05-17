@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
 #include <iostream>
+#include "Settings.h"
 
 class TextureLoader
 {
@@ -14,6 +15,5 @@ public:
 
 private:
 	static boost::container::map<std::string,boost::shared_ptr<sf::Texture> > s_textures;
-	static std::string s_textureFolder;
 };
 

@@ -1,6 +1,6 @@
 #include "ActorManager.h"
 
-std::string ActorManager::s_xmlFolder = "../CrackTheSky/data/xml/";
+std::string ActorManager::s_xmlFolder = "data/xml/";
 static ActorManager* g_ActorManager = NULL;
 
 ActorManager::ActorManager(boost::shared_ptr<sf::RenderWindow> p_app) {
@@ -11,6 +11,7 @@ ActorManager::ActorManager(boost::shared_ptr<sf::RenderWindow> p_app) {
 	g_ActorManager = this;
 
 	m_app = p_app;
+	m_globalId = 0;
 }
 
 ActorManager::~ActorManager(void) {
@@ -21,16 +22,95 @@ ActorManager* ActorManager::Get() {
 	return g_ActorManager;
 }
 
-ActorPtr ActorManager::getNewMovableActor(std::string actorName) {
+ActorPtr ActorManager::getNewMovableActor(std::string p_actorName) {
+
+	MovableActorPtr movie = MovableActorPtr(new MovableActor(m_globalId++));
+
 	pugi::xml_document doc;
-	std::string fileName = s_xmlFolder+"MovableActors.xml";
-
+	std::string fileName = Settings::getString("XML_PATH")+"MovableActors.xml";
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str());
-	std::cout << "Load result: " << result.description() << ", mesh name: " << doc.child("root").child("actor").attribute("name").value() << std::endl;
+	pugi::xml_node root = doc.child("root");
+	for (pugi::xml_node actor = root.child("actor"); actor; actor = actor.next_sibling("actor"))
+	{
+		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
+		{
+			for (pugi::xml_node attribute = actor.child("attribute"); attribute; attribute = attribute.next_sibling("attribute"))
+			{
+				if (std::string("texture").compare(attribute.attribute("key").value()) == 0)
+				{
+					//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
+					movie->setTexture(*TextureLoader::getTexture(attribute.attribute("value").value()));
+				} 
+				if (std::string("scale").compare(attribute.attribute("key").value()) == 0)
+				{
+					
+					std::stringstream x_sstr;
+					float x;
+					x_sstr<<attribute.attribute("x").value();
+					x_sstr>>x;
+					std::stringstream y_sstr;
+					float y;
+					y_sstr<<attribute.attribute("y").value();
+					y_sstr>>y;
+					//std::cout << "scale  " << x << "," << y << std::endl;
+					movie->setScale(x,y);
 
-	boost::shared_ptr<AbstractActor> smartPtr(new MovableActor());
+				} 
+				if (std::string("origin").compare(attribute.attribute("key").value()) == 0)
+				{
+					//std::cout << "origin  " << std::endl;
+					std::stringstream x_sstr;
+					float x;
+					x_sstr<<attribute.attribute("x").value();
+					x_sstr>>x;
+					std::stringstream y_sstr;
+					float y;
+					y_sstr<<attribute.attribute("y").value();
+					y_sstr>>y;
+					
+					movie->setOrigin(x,y);
+				} 
+				if (std::string("position").compare(attribute.attribute("key").value()) == 0)
+				{
+					std::stringstream x_sstr;
+					float x;
+					x_sstr<<attribute.attribute("x").value();
+					x_sstr>>x;
+					std::stringstream y_sstr;
+					float y;
+					y_sstr<<attribute.attribute("y").value();
+					y_sstr>>y;
 
-	return smartPtr;
+					//std::cout << "position  " << x << y << std::endl;
+
+					movie->setPosition(x,y);
+				} 
+				if (std::string("acceleration").compare(attribute.attribute("key").value()) == 0)
+				{
+					std::stringstream x_sstr;
+					float x;
+					x_sstr<<attribute.attribute("x").value();
+					x_sstr>>x;
+					std::stringstream y_sstr;
+					float y;
+					y_sstr<<attribute.attribute("y").value();
+					y_sstr>>y;
+					std::stringstream rot_sstr;
+					float rot;
+					rot_sstr<<attribute.attribute("rotation").value();
+					rot_sstr>>rot;
+					//std::cout << "acc  " << x << ", " << y << ", " << rot << std::endl;
+					movie->accelerate(Pose(x,y,rot));
+				}
+
+			}
+		}
+
+
+
+	}
+
+	return movie;
 }
 
 void ActorManager::addActor(ActorPtr p_actor)

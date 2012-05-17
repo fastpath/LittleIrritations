@@ -45,29 +45,36 @@ void InputHandler::handleKeys() {
 				// MouseMoved
 				case sf::Event::MouseMoved:{
 					EventPtr newEvent(new Event(MOUSE_MOVED,0.0f));
+
 					Pose tmpPos(sfmlEvent.mouseMove.x,sfmlEvent.mouseMove.y);
 					PropertyPtr position = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
 					newEvent->addProperty(position);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				} break;
 				// MouseDown
 				case sf::Event::MouseButtonPressed:{
 					EventPtr newEvent(new Event(MOUSE_DOWN,0.0f));
-					Pose tmpPos(sfmlEvent.mouseMove.x,sfmlEvent.mouseMove.y);
+
+					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
 					PropertyPtr position = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
 					newEvent->addProperty(position);
+
 					PropertyPtr button = PropertyPtr(new TProperty<sf::Mouse::Button>(MOUSEBUTTON, sfmlEvent.mouseButton.button));
 					newEvent->addProperty(button);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				} break;
 				// MouseUp
 				case sf::Event::MouseButtonReleased:{
 					EventPtr newEvent(new Event(MOUSE_UP,0.0f));
-					Pose tmpPos(sfmlEvent.mouseMove.x,sfmlEvent.mouseMove.y);
+					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
 					PropertyPtr position = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
 					newEvent->addProperty(position);
+
 					PropertyPtr button = PropertyPtr(new TProperty<sf::Mouse::Button>(MOUSEBUTTON, sfmlEvent.mouseButton.button));
 					newEvent->addProperty(button);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				} break;				
 				default:

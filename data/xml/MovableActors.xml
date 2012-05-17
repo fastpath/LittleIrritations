@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
   <actor name="cody" >
-    <attribute key="texture" value="cody_500x1000" />
+    <attribute key="texture" value="cody2_500x1000" />
     <attribute key="scale" x="0.2" y="0.2" />
     <attribute key="position" x="300.0" y="300.0" />
   </actor>
@@ -10,20 +10,20 @@
     <attribute key="origin" x="300.0" y="250.0" />
     <attribute key="scale" x="0.3" y="0.3" />
     <attribute key="position" x="600.0" y="500.0" />
-    <attribute key="acceleration" x="0.0" y="0.0" rotation="10.0" />
+    <attribute key="acceleration" x="0.0" y="0.0" rotation="30.0" />
   </actor>
   <actor name="astroid2" >
     <attribute key="texture" value="astroid2_600x500" />
     <attribute key="origin" x="300.0" y="250.0" />
     <attribute key="scale" x="0.4" y="0.4" />
     <attribute key="position" x="300.0" y="400.0" />
-    <attribute key="acceleration" x="0.0" y="0.0" rotation="25.0" />
+    <attribute key="acceleration" x="0.0" y="0.0" rotation="50.0" />
   </actor>
   <actor name="astroid3" >
     <attribute key="texture" value="astroid3_550x700" />
     <attribute key="origin" x="225.0" y="700.0" />
     <attribute key="scale" x="0.5" y="0.5" />
     <attribute key="position" x="200.0" y="300.0" />
-    <attribute key="acceleration" x="0.0" y="0.0" rotation="50.0" />
+    <attribute key="acceleration" x="0.0" y="0.0" rotation="30.0" />
   </actor>
 </root>
