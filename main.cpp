@@ -8,6 +8,7 @@
 #include "AbstractActor.h"
 #include "MovableActor.h"
 #include "Pose.h"
+#include "SceneManager.h"
 #include "Player.h"
 #include "ActorManager.h"
 #include "InputHandler.h"
@@ -54,7 +55,10 @@ void initialize(void)
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
-	m_evtMgr->VAddEventListener(player, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
+
+	boost::shared_ptr<SceneManager> sceneManager(new SceneManager());
+	sceneManager->setPlayer(player);
+	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
 }
 
 int main ()

@@ -81,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="Settings.cpp">
       <Filter>Source Files\Util</Filter>
+	</ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +142,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Settings.h">
-      <Filter>Header Files</Filter>
+		<Filter>Header Files</Filter>
+	</ClInclude>
+    <ClInclude Include="SceneManager.h">
+		<Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

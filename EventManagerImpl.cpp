@@ -19,7 +19,7 @@ bool EventManagerImpl::VAddEventListener(const EventListenerPtr& p_listener, int
     va_start(params, p_typeCount); // Zugriff vorbereiten
 	bool found = false;
 
-	std::cout << "EventListener should be added" << std::endl;
+	//std::cout << "EventListener should be added" << std::endl;
 	for (int i=0; i<p_typeCount; ++i)
 	{
 		EventType currType = va_arg(params,EventType);
