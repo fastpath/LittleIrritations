@@ -1,9 +1,5 @@
 #include "ActorManager.h"
 
-std::map<ActorType,std::list<ActorPtr> > ActorManager::s_actorMap;
-std::map<float,std::list<MovableActorPtr> > ActorManager::s_movableActorMap;
-
-
 std::string ActorManager::s_xmlFolder = "../CrackTheSky/data/xml/";
 static ActorManager* g_ActorManager = NULL;
 
@@ -43,6 +39,7 @@ void ActorManager::addActor(ActorPtr p_actor)
 		case MOVABLE_ACTOR: {
 			MovableActorPtr tempPtr = boost::shared_static_cast<MovableActor>(p_actor);
 			s_movableActorMap[tempPtr->getZ()].push_back(tempPtr);
+			m_levels.push_back(tempPtr->getZ());
 		}break;
 		default:
 			break;
@@ -58,4 +55,19 @@ void ActorManager::update(float p_dt)
 		movie->update(p_dt);
 	}
 
+	m_levels.unique();
+	m_levels.sort();
+
+	for (auto level = m_levels.begin(); level != m_levels.end(); ++level)
+	{
+		float tmp = *level;
+		std::list<MovableActorPtr> movies = s_movableActorMap[tmp];
+		for (auto movActor = movies.begin(); movActor != movies.end(); ++movActor)
+		{
+			MovableActorPtr tempPtr = *movActor;
+			m_app->draw(*tempPtr);
+			//std::cout << "draaaw   id#" << tempPtr->getId() << "  " << tempPtr->getPosition().x << "," << tempPtr->getPosition().y << std::endl;
+		}
+		
+	}
 }

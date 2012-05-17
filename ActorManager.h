@@ -10,18 +10,18 @@
 class ActorManager
 {
 public:
-	static std::map<ActorType,std::list<ActorPtr> > s_actorMap;
-	static std::map<float,std::list<MovableActorPtr> > s_movableActorMap;
+	std::map<ActorType,std::list<ActorPtr> > s_actorMap;
+	std::map<float,std::list<MovableActorPtr> > s_movableActorMap;
 
 	ActorManager(void);
 	ActorManager(boost::shared_ptr<sf::RenderWindow> p_app);
 	~ActorManager(void);
 
-	static ActorPtr getNewMovableActor(std::string p_fileName);
-	static void addActor(ActorPtr p_actor);
-	static void update(float p_dt);
+	ActorPtr getNewMovableActor(std::string p_fileName);
+	void addActor(ActorPtr p_actor);
+	void update(float p_dt);
 
-	ActorManager* Get(void);
+	static ActorManager* Get(void);
 
 private:
 	static std::string s_xmlFolder;
