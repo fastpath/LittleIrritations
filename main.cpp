@@ -19,11 +19,22 @@ const float DT = 1.0/FRAMERATE;
 const float EPSILON = 0.01;
 
 EventManagerImpl* m_evtMgr;
+ActorManager* m_actMgr;
+boost::shared_ptr<sf::RenderWindow> Window;
+boost::shared_ptr<InputHandler> inputHandler;
 
 
 void initialize(void)
 {
+	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(800,600,32),"Little Irritations"));
+	Window->setKeyRepeatEnabled(false);
+	sf::ContextSettings cs = Window->getSettings();
+	Window->setFramerateLimit(FRAMERATE);
+
 	m_evtMgr = new EventManagerImpl("Super EventManager", true);
+	m_actMgr = new ActorManager(Window);
+	std::cout << "Creating InputHandler" << std::endl;
+	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
 
 	boost::shared_ptr<AbstractActor> cody(new MovableActor());
 	boost::shared_ptr<MovableActor> moveCody = boost::shared_dynamic_cast<MovableActor>(cody);
@@ -64,7 +75,7 @@ void initialize(void)
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
-	m_evtMgr->VAddEventListener(player, 3, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED);
+	m_evtMgr->VAddEventListener(player, 5, KEY_PRESSED,KEY_RELEASED,MOUSE_MOVED,MOUSE_UP,MOUSE_DOWN);
 }
 
 int main ()
@@ -72,25 +83,10 @@ int main ()
 
 	initialize();
 
-	boost::shared_ptr<sf::RenderWindow> Window(new sf::RenderWindow(sf::VideoMode(800,600,32),"Little Irritations"));
-	Window->setKeyRepeatEnabled(false);
-	
-	sf::ContextSettings cs = Window->getSettings();
-
-	//ActorManager::getNewMovableActor("cody");
-	
-
 	sf::Clock clock;
-
 	float t = 0.0;
 	float speed = 400.0;
 	sf::Time currentTime = clock.getElapsedTime();
-
-	Window->setFramerateLimit(FRAMERATE);
-		
-	std::cout << "Creating InputHandler" << std::endl;
-	boost::shared_ptr<InputHandler> input(new InputHandler(Window));
-
 
 	while (Window->isOpen())
 	{
@@ -99,7 +95,7 @@ int main ()
 		//std::cout << " time  " << frameTime << std::endl;
         currentTime = newTime;
 
-		input->handleKeys();
+		inputHandler->handleKeys();
 
 
 		//sf::Vector2f direction = actors[0]->getAcceleration().getVector2f();

@@ -27,25 +27,55 @@ void InputHandler::handleKeys() {
 				// KeyPressed
 				case sf::Event::KeyPressed: {
 					EventPtr newEvent(new Event(KEY_PRESSED,0.0f));
+
 					PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
 					newEvent->addProperty(key);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				}break;
 				// KeyReleased
 				case sf::Event::KeyReleased: {
 					EventPtr newEvent(new Event(KEY_RELEASED,0.0f));
+
 					PropertyPtr key = PropertyPtr(new TProperty<sf::Keyboard::Key>(KEY,sfmlEvent.key.code));
 					newEvent->addProperty(key);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				}break;
 				// MouseMoved
 				case sf::Event::MouseMoved:{
 					EventPtr newEvent(new Event(MOUSE_MOVED,0.0f));
+
 					Pose tmpPos(sfmlEvent.mouseMove.x,sfmlEvent.mouseMove.y);
-					PropertyPtr key = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
-					newEvent->addProperty(key);
+					PropertyPtr posProp = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
+					newEvent->addProperty(posProp);
+
 					IBaseEventManager::Get()->VQueueEvent(newEvent);
 				} break;
+				case sf::Event::MouseButtonPressed:{
+					EventPtr newEvent(new Event(MOUSE_DOWN,0.0f));
+
+					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+					PropertyPtr posProp = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
+					newEvent->addProperty(posProp);
+
+					PropertyPtr buttonProp = PropertyPtr(new TProperty<sf::Mouse::Button>(BUTTON,sfmlEvent.mouseButton.button));
+					newEvent->addProperty(buttonProp);
+
+					IBaseEventManager::Get()->VQueueEvent(newEvent);
+				}break;
+				case sf::Event::MouseButtonReleased:{
+					EventPtr newEvent(new Event(MOUSE_UP,0.0f));
+
+					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+					PropertyPtr posProp = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
+					newEvent->addProperty(posProp);
+
+					PropertyPtr buttonProp = PropertyPtr(new TProperty<sf::Mouse::Button>(BUTTON,sfmlEvent.mouseButton.button));
+					newEvent->addProperty(buttonProp);
+
+					IBaseEventManager::Get()->VQueueEvent(newEvent);
+				}break;
 				default:
 					//std::cout << "Event Type not found!" << std::endl;
 				return;
