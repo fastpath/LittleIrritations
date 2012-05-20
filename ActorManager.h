@@ -20,7 +20,7 @@ public:
 	ActorManager(boost::shared_ptr<sf::RenderWindow> p_app);
 	~ActorManager(void);
 
-	ActorPtr getNewMovableActor(std::string p_actorName);
+	MovableActorPtr getNewMovableActor(std::string p_actorName);
 	void addActor(ActorPtr p_actor);
 	void update(float p_dt);
 

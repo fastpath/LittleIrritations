@@ -41,20 +41,21 @@ void initialize(void)
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
 	
 
-	ActorPtr cody = ActorManager::Get()->getNewMovableActor("cody");
+	MovableActorPtr cody = ActorManager::Get()->getNewMovableActor("cody");
 	ActorManager::Get()->addActor(cody);
 
-	ActorPtr astroid1 = ActorManager::Get()->getNewMovableActor("astroid1");
+	MovableActorPtr astroid1 = ActorManager::Get()->getNewMovableActor("astroid1");
 	ActorManager::Get()->addActor(astroid1);
 
-	ActorPtr astroid2 = ActorManager::Get()->getNewMovableActor("astroid2");
+	MovableActorPtr astroid2 = ActorManager::Get()->getNewMovableActor("astroid2");
 	ActorManager::Get()->addActor(astroid2);
 
-	ActorPtr astroid3 = ActorManager::Get()->getNewMovableActor("astroid3");
+	MovableActorPtr astroid3 = ActorManager::Get()->getNewMovableActor("astroid3");
 	ActorManager::Get()->addActor(astroid3);
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
+	player->setActiveActor(cody);
 
 	boost::shared_ptr<SceneManager> sceneManager(new SceneManager());
 	sceneManager->setPlayer(player);

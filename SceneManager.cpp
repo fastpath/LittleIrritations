@@ -18,29 +18,25 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 	switch (p_event->GetEventType())
 	{
 		case KEY_PRESSED: {
-			std::cout << "Key Pressed Event beim SceneManager angekommen!   ";
+			//std::cout << "Key Pressed Event beim SceneManager angekommen!   ";
 			sf::Keyboard::Key pressedKey;
 			p_event->GetProperty(pressedKey,KEY);
 
 			switch (pressedKey) {
 				case sf::Keyboard::Up: {
-					std::cout << "Oben gedrueckt" << std::endl;
-				
+					//std::cout << "Oben gedrueckt" << std::endl;
 				}break;
 
 				case sf::Keyboard::Down: {
-					std::cout << "Unten gedrueckt" << std::endl;
-				
+					//std::cout << "Unten gedrueckt" << std::endl;
 				}break;
 
 				case sf::Keyboard::Right: {
-					std::cout << "Rechts gedrueckt" << std::endl;
-				
+					//std::cout << "Rechts gedrueckt" << std::endl;
 				}break;
 
 				case sf::Keyboard::Left: {
-					std::cout << "Links gedrueckt" << std::endl;
-				
+					//std::cout << "Links gedrueckt" << std::endl;
 				}break;
 
 				default:
@@ -49,7 +45,7 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 		}break;
 
 		case KEY_RELEASED: {
-			std::cout << "Key Released Event beim SceneManager angekommen!" << std::endl;
+			//std::cout << "Key Released Event beim SceneManager angekommen!" << std::endl;
 		}break;
 	
 		case MOUSE_MOVED: {
@@ -66,6 +62,7 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 			int buttonID;
 			p_event->GetProperty(buttonID, MOUSEBUTTON);
 			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
+			
 			break;
 		}
 		case MOUSE_UP: {
@@ -75,6 +72,10 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 			int buttonID;
 			p_event->GetProperty(buttonID, MOUSEBUTTON);
 			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
+			if(buttonID == sf::Mouse::Button::Left)
+				player->moveCurrentActorAbsolute(tmpPos.getX(), tmpPos.getY());
+			else if(buttonID == sf::Mouse::Button::Right)
+				player->accelerateActorToNewPosition(tmpPos);
 			break;
 		}
 		default:{

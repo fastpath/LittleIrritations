@@ -22,7 +22,7 @@ ActorManager* ActorManager::Get() {
 	return g_ActorManager;
 }
 
-ActorPtr ActorManager::getNewMovableActor(std::string p_actorName) {
+MovableActorPtr ActorManager::getNewMovableActor(std::string p_actorName) {
 
 	MovableActorPtr movie = MovableActorPtr(new MovableActor(m_globalId++));
 
