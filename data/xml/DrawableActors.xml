@@ -26,4 +26,8 @@
     <position x="200.0" y="300.0" />
     <acceleration x="0.0" y="0.0" rotation="30.0" />
   </actor>
+  <actor name="Background" >
+    <texture value="background_1920x1080" />
+    <position x="0.0" y="0.0" />
+  </actor>
 </root>

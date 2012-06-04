@@ -2,7 +2,7 @@
 
 #include "Events.h"
 
-bool Event::HasProperty(PropertyType& p_type)
+bool Event::HasProperty(PropertyType p_type)
 {
 	bool success = false;
 	auto itProp = m_properties.find(p_type);

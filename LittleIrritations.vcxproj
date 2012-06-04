@@ -82,8 +82,7 @@
   <ItemGroup>
     <None Include="config.ini" />
     <None Include="data\xml\Levels.xml" />
-    <None Include="data\xml\MovableActors.xml" />
-    <None Include="data\xml\StaticActors.xml" />
+    <None Include="data\xml\DrawableActors.xml" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -93,19 +92,18 @@
     <ClCompile Include="EventManagerImpl.cpp" />
     <ClCompile Include="IBaseEventManager.cpp" />
     <ClCompile Include="IEventListener.cpp" />
-    <ClCompile Include="ILevelManager.cpp" />
+    <ClCompile Include="IScreenManager.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="InputListener.cpp" />
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="libs\pugixml\pugixml.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MovableActor.cpp" />
+    <ClCompile Include="DrawableActor.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Property.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="StaticActor.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -118,19 +116,18 @@
     <ClInclude Include="EventType.h" />
     <ClInclude Include="IBaseEventManager.h" />
     <ClInclude Include="IEventListener.h" />
-    <ClInclude Include="ILevelManager.h" />
+    <ClInclude Include="IScreenManager.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="InputListener.h" />
-    <ClInclude Include="Level.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="libs\pugixml\pugixml.hpp" />
-    <ClInclude Include="MovableActor.h" />
+    <ClInclude Include="DrawableActor.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="PropertyType.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="StaticActor.h" />
     <ClInclude Include="TextureLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

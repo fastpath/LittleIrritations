@@ -1,7 +1,6 @@
 #pragma once
 enum ActorType
 {
-	MOVABLE_ACTOR,
-	STATIC_ACTOR,
+	DRAWABLE_ACTOR,
 	SOUND_ACTOR
 };

@@ -1,8 +1,8 @@
 enum PropertyType
 {
 	ID = 0,
-	NAME,
-	POSE,
+	NAME, //std::string
+	POSE, //Pose
 	MOUSEBUTTON,
 	KEY
 };

@@ -1,10 +1,10 @@
 <Level>
 	<staticActors>
 		<staticActor name="Background">
-			<position x="0" y="0" z="0" />
+			<position x="0" y="0" z="-2" />
 		</staticActor>
 		<staticActor name="Plant">
-			<position x="0.7" y="0.3" z="1" />
+			<position x="0.7" y="0.3" z="-1" />
 		</staticActor>
 	</staticActors>
   <pathPolygons>

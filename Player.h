@@ -4,7 +4,7 @@
 #include "Property.h"
 #include <SFML/Window.hpp>
 #include "Pose.h"
-#include "MovableActor.h"
+#include "DrawableActor.h"
 
 
 class Player : public IEventListener
@@ -15,12 +15,12 @@ public:
 
 	bool VprocessEvent(EventPtr p_event);
 
-	void setActiveActor(MovableActorPtr p_actor);
+	void setActiveActor(DrawableActorPtr p_actor);
 	void moveCurrentActorOffsetBased(int xOffset, int yOffset);
 	void moveCurrentActorAbsolute(int newX, int newY);
 	void accelerateActorToNewPosition(Pose newPose);
 
 private:
-	MovableActorPtr m_activeActor;
+	DrawableActorPtr m_activeActor;
 };
 

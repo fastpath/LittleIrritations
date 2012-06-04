@@ -4,14 +4,14 @@
 #include "Pose.h"
 #include <iostream>
 
-class MovableActor;
-typedef boost::shared_ptr<MovableActor> MovableActorPtr;
+class DrawableActor;
+typedef boost::shared_ptr<DrawableActor> DrawableActorPtr;
 
-class MovableActor : public AbstractActor, public sf::Sprite
+class DrawableActor : public AbstractActor, public sf::Sprite
 {
 public:
-	MovableActor(void);
-	MovableActor(int p_id);
+	DrawableActor(void);
+	DrawableActor(int p_id);
 
 	void accelerate(Pose& p_pose);
 	Pose& getAcceleration(void);
@@ -20,7 +20,7 @@ public:
 	void setPosition(float p_x, float p_y);
 	void update(float p_dt);
 
-	~MovableActor(void);
+	~DrawableActor(void);
 
 private:
 	Pose m_acceleration;

@@ -3,6 +3,9 @@
 #include "PropertyType.h"
 #include <boost/shared_ptr.hpp>
 
+class Property;
+typedef boost::shared_ptr<Property> PropertyPtr;
+
 class Property
 {
 public:

@@ -31,10 +31,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="data\xml\MovableActors.xml" />
-    <None Include="data\xml\StaticActors.xml" />
     <None Include="data\xml\Levels.xml" />
     <None Include="config.ini" />
+    <None Include="data\xml\DrawableActors.xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,9 +63,6 @@
     <ClCompile Include="ActorManager.cpp">
       <Filter>Source Files\GameLogic</Filter>
     </ClCompile>
-    <ClCompile Include="MovableActor.cpp">
-      <Filter>Source Files\GameLogic</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\GameLogic</Filter>
     </ClCompile>
@@ -88,14 +84,14 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files\GameLogic</Filter>
     </ClCompile>
-    <ClCompile Include="StaticActor.cpp">
+    <ClCompile Include="Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
+    <ClCompile Include="IScreenManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ILevelManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="DrawableActor.cpp">
+      <Filter>Source Files\GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +128,6 @@
     <ClInclude Include="InputListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovableActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,13 +152,13 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StaticActor.h">
+    <ClInclude Include="Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
+    <ClInclude Include="IScreenManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ILevelManager.h">
+    <ClInclude Include="DrawableActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

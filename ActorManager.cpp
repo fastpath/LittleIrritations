@@ -26,19 +26,20 @@ ActorManager* ActorManager::Get() {
 	return g_ActorManager;
 }
 
-MovableActorPtr ActorManager::getNewMovableActor(const std::string& p_actorName) {
+DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose) {
 
-	MovableActorPtr movie = MovableActorPtr(new MovableActor(m_globalId++));
+	DrawableActorPtr movie = DrawableActorPtr(new DrawableActor(m_globalId++));
 
 	pugi::xml_document doc;
-	std::string fileName = Settings::getString("XML_PATH")+"MovableActors.xml";
+	std::string fileName = Settings::getString("XML_PATH")+"DrawableActors.xml";
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str());
 	pugi::xml_node root = doc.child("root");
 	for (pugi::xml_node actor = root.child("actor"); actor; actor = actor.next_sibling("actor"))
 	{
 		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
 		{
-
+			PropertyPtr nameProp = PropertyPtr(new TProperty<std::string>(NAME,p_actorName));
+			movie->addProperty(nameProp);
 			if (actor.child("texture").empty() == 0)
 			{
 				//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
@@ -105,44 +106,17 @@ MovableActorPtr ActorManager::getNewMovableActor(const std::string& p_actorName)
 				//std::cout << "acc  " << x << ", " << y << ", " << rot << std::endl;
 				movie->accelerate(Pose(x,y,rot));
 			}
+			ActorManager::addActor(movie);
 		}
 	}
-
-	ActorManager::addActor(movie);
-
 	return movie;
-}
-
-StaticActorPtr ActorManager::getNewStaticActor(const std::string& p_actorName)
-{
-	StaticActorPtr staty = StaticActorPtr(new StaticActor(m_globalId++));
-
-	pugi::xml_document doc;
-	std::string fileName = Settings::getString("XML_PATH")+"StaticActors.xml";
-	pugi::xml_parse_result result = doc.load_file(fileName.c_str());
-	pugi::xml_node root = doc.child("root");
-	for (pugi::xml_node actor = root.child("actor"); actor; actor = actor.next_sibling("actor"))
-	{
-		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
-		{
-			if (actor.child("texture").empty() == 0)
-			{
-				//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
-				staty->setTexture(*TextureLoader::getTexture(actor.child("texture").attribute("value").value()));
-			} 
-		}
-	}
-
-	ActorManager::addActor(staty);
-
-	return staty;
 }
 
 void ActorManager::addActor(ActorPtr p_actor)
 {
 	switch (p_actor->getType()) {
-		case MOVABLE_ACTOR: {
-			MovableActorPtr tempPtr = boost::shared_static_cast<MovableActor>(p_actor);
+		case DRAWABLE_ACTOR: {
+			DrawableActorPtr tempPtr = boost::shared_static_cast<DrawableActor>(p_actor);
 			m_drawableActorMap[tempPtr->getZ()].push_back(tempPtr);
 			m_levels.push_back(tempPtr->getZ());
 		}break;
@@ -154,15 +128,16 @@ void ActorManager::addActor(ActorPtr p_actor)
 
 void ActorManager::update(float p_dt)
 {
-	for (auto movableActor = m_actorMap[MOVABLE_ACTOR].begin(); movableActor != m_actorMap[MOVABLE_ACTOR].end(); ++movableActor)
+	for (auto drawableActor = m_actorMap[DRAWABLE_ACTOR].begin(); drawableActor != m_actorMap[DRAWABLE_ACTOR].end(); ++drawableActor)
 	{
-		boost::shared_ptr<MovableActor> movie = boost::shared_dynamic_cast<MovableActor>(*movableActor);
+		boost::shared_ptr<DrawableActor> movie = boost::shared_dynamic_cast<DrawableActor>(*drawableActor);
 		movie->update(p_dt);
 	}
 
 	m_levels.unique();
 	m_levels.sort();
 
+	//Iterates through the different Z-levels
 	for (auto level = m_levels.begin(); level != m_levels.end(); ++level)
 	{
 		float tmp = *level;
@@ -171,14 +146,12 @@ void ActorManager::update(float p_dt)
 		{
 			switch ( (*actor)->getType() )
 			{
-			case MOVABLE_ACTOR:
+			case DRAWABLE_ACTOR:
 				{
-					MovableActorPtr tempPtr = boost::shared_dynamic_cast<MovableActor>(*actor);
-					m_app->draw(*tempPtr);
-				} break;
-			case STATIC_ACTOR:
-				{
-					StaticActorPtr tempPtr = boost::shared_dynamic_cast<StaticActor>(*actor);
+					DrawableActorPtr tempPtr = boost::shared_dynamic_cast<DrawableActor>(*actor);
+					//std::string name;
+					//tempPtr->GetProperty(name,NAME);
+					//std::cout << "Movie name:: " << name << std::endl;
 					m_app->draw(*tempPtr);
 				} break;
 			default:
@@ -188,4 +161,35 @@ void ActorManager::update(float p_dt)
 		}
 		
 	}
+}
+
+bool ActorManager::VprocessEvent(EventPtr p_event)
+{
+	switch (p_event->GetEventType())
+	{
+		case CREATE_ACTOR:
+			{
+				std::cout << "HALLOOOOO" << std::endl;
+				std::string actorName;
+				p_event->GetProperty(actorName,NAME);
+				std::cout << "Movie name:: " << actorName << std::endl;
+
+				Pose* actorPose = NULL;
+
+				if (p_event->HasProperty(POSE))
+				{
+					
+					Pose pose;
+					p_event->GetProperty(pose,POSE);
+					actorPose = &pose;
+					std::cout << "Voll der Poser   " << pose << std::endl;
+				}
+				ActorManager::getNewDrawableActor(actorName, actorPose);
+
+			}
+		default:
+			break;
+	}
+
+	return true;
 }

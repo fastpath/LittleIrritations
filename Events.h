@@ -5,7 +5,6 @@
 #include "Property.h"
 
 class Event;
-typedef boost::shared_ptr<Property> PropertyPtr;
 typedef boost::shared_ptr<Event> EventPtr;
 
 
@@ -21,7 +20,7 @@ public:
 	const EventType& GetEventType(void) {return m_type; }
 	float GetTimeStamp(void) const {return m_timeStamp; }
 
-	bool HasProperty(PropertyType& p_type);
+	bool HasProperty(PropertyType p_type);
 	void addProperty(PropertyPtr p_property);
 
 	//PropertyPtr GetProperty(PropertyType p_type);

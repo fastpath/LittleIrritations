@@ -6,7 +6,7 @@
 #include <boost/foreach.hpp>
 #include "EnumNames.h"
 #include "AbstractActor.h"
-#include "MovableActor.h"
+#include "DrawableActor.h"
 #include "Pose.h"
 #include "SceneManager.h"
 #include "Player.h"
@@ -14,17 +14,18 @@
 #include "InputHandler.h"
 #include "EventManagerImpl.h"
 #include "Settings.h"
-#include "Level.h"
+#include "Screen.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
 const float EPSILON = 0.01;
 
 EventManagerImpl* m_evtMgr;
-ActorManager* m_actMgr;
+boost::shared_ptr<ActorManager> m_actMgr;
 Settings* m_settings;
 boost::shared_ptr<sf::RenderWindow> Window;
 boost::shared_ptr<InputHandler> inputHandler;
+Screen* testChamber;
 
 
 void initialize(void)
@@ -38,17 +39,17 @@ void initialize(void)
 	Window->setFramerateLimit(FRAMERATE);
 
 	m_evtMgr = new EventManagerImpl("Super EventManager", true);
-	m_actMgr = new ActorManager(Window);
+	m_actMgr = boost::shared_ptr<ActorManager>(new ActorManager(Window));
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
 	
 
-	MovableActorPtr cody = ActorManager::getNewMovableActor("cody");
+	DrawableActorPtr cody = ActorManager::getNewDrawableActor("cody");
 
-	MovableActorPtr astroid1 = ActorManager::getNewMovableActor("astroid1");
+	DrawableActorPtr astroid1 = ActorManager::getNewDrawableActor("astroid1");
 
-	MovableActorPtr astroid2 = ActorManager::getNewMovableActor("astroid2");
+	DrawableActorPtr astroid2 = ActorManager::getNewDrawableActor("astroid2");
 
-	MovableActorPtr astroid3 = ActorManager::getNewMovableActor("astroid3");
+	DrawableActorPtr astroid3 = ActorManager::getNewDrawableActor("astroid3");
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
@@ -56,10 +57,12 @@ void initialize(void)
 
 	boost::shared_ptr<SceneManager> sceneManager(new SceneManager());
 	sceneManager->setPlayer(player);
+	
 	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
+	m_evtMgr->VAddEventListener(m_actMgr, 1, CREATE_ACTOR);
 
-	Level testChamber;
-	testChamber.initializeFromXML("Levels.xml");
+	testChamber = new Screen();
+	testChamber->initializeFromXML("Levels.xml");
 }
 
 int main ()
@@ -86,6 +89,7 @@ int main ()
 		while ( frameTime > 0.0 - EPSILON)
          {
 			const float deltaTime = std::min( frameTime, DT );
+
 
 			ActorManager::Get()->update(deltaTime);
 
