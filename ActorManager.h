@@ -1,6 +1,8 @@
+#pragma once
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include "AbstractActor.h"
 #include "MovableActor.h"
+#include "StaticActor.h"
 #include <string>
 #include <map>
 #include <list>
@@ -13,24 +15,24 @@
 class ActorManager
 {
 public:
-	std::map<ActorType,std::list<ActorPtr> > s_actorMap;
-	std::map<float,std::list<MovableActorPtr> > s_movableActorMap;
-
 	ActorManager(void);
 	ActorManager(boost::shared_ptr<sf::RenderWindow> p_app);
 	~ActorManager(void);
 
-	MovableActorPtr getNewMovableActor(std::string p_actorName);
-	void addActor(ActorPtr p_actor);
+	static MovableActorPtr getNewMovableActor(const std::string& p_actorName);
+	static StaticActorPtr getNewStaticActor(const std::string& p_actorName);
+
 	void update(float p_dt);
 
 	static ActorManager* Get(void);
 
 private:
-	static std::string s_xmlFolder;
-	boost::shared_ptr<sf::RenderWindow> m_app;
-	std::list<float> m_levels;
-	unsigned int m_globalId;
+	static std::map<ActorType,std::list<ActorPtr> > m_actorMap;
+	static std::map<float,std::list<ActorPtr> > m_drawableActorMap;
+	static boost::shared_ptr<sf::RenderWindow> m_app;
+	static std::list<float> m_levels;
+	static unsigned int m_globalId;
 
+	static void addActor(ActorPtr p_actor);
 };
 

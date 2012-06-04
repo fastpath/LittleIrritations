@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ActorManager">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFAAAAAAAQAAABBAAACEAAAIAAAQAAAAAAAQABEAAA=</HashCode>
+      <FileName>ActorManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventManagerImpl">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="EventManagerImpl::EventListenerList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EventManagerImpl.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="EventManagerImpl::EventListenerMap" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EventManagerImpl.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="EventManagerImpl::EventQueue" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EventManagerImpl.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BEAQCRAAAAAAIAAAAAAEAAEAAEAAAAAAABACABAUAAA=</HashCode>
+      <FileName>EventManagerImpl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAgAAAAAEAhAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Level.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pose">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAIACCAAEAAYAAAAAAGEBAAE=</HashCode>
+      <FileName>Pose.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

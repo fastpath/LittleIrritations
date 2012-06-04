@@ -37,8 +37,24 @@ Settings::~Settings(void)
 	delete g_Settings;
 }
 
-std::string Settings::getString(std::string p_key) {
+std::string Settings::getString(const std::string& p_key) {
 	return m_keyValue[p_key];
+}
+
+int Settings::getInt(const std::string& p_key) {
+	std::stringstream val_sstr;
+	int val;
+	val_sstr << m_keyValue[p_key];
+	val_sstr >> val;
+	return val;
+}
+
+unsigned int Settings::getUnsignedInt(const std::string& p_key) {
+	std::stringstream val_sstr;
+	unsigned int val;
+	val_sstr << m_keyValue[p_key];
+	val_sstr >> val;
+	return val;
 }
 
 Settings* Settings::Get(void) {

@@ -1,11 +1,10 @@
 #include "TextureLoader.h"
 
-boost::container::map<std::string,boost::shared_ptr<sf::Texture> > TextureLoader::s_textures;
+std::map<std::string,boost::shared_ptr<sf::Texture> > TextureLoader::s_textures;
 
 TextureLoader::TextureLoader(void)
 {
 }
-
 
 TextureLoader::~TextureLoader(void)
 {

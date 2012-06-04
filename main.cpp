@@ -14,6 +14,7 @@
 #include "InputHandler.h"
 #include "EventManagerImpl.h"
 #include "Settings.h"
+#include "Level.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
@@ -31,7 +32,7 @@ void initialize(void)
 
 	m_settings = new Settings();
 
-	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(800,600,32),"Little Irritations"));
+	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(Settings::getUnsignedInt("WIDTH"),Settings::getUnsignedInt("HEIGTH")),"Little Irritations"));
 	Window->setKeyRepeatEnabled(false);
 	sf::ContextSettings cs = Window->getSettings();
 	Window->setFramerateLimit(FRAMERATE);
@@ -41,17 +42,13 @@ void initialize(void)
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
 	
 
-	MovableActorPtr cody = ActorManager::Get()->getNewMovableActor("cody");
-	ActorManager::Get()->addActor(cody);
+	MovableActorPtr cody = ActorManager::getNewMovableActor("cody");
 
-	MovableActorPtr astroid1 = ActorManager::Get()->getNewMovableActor("astroid1");
-	ActorManager::Get()->addActor(astroid1);
+	MovableActorPtr astroid1 = ActorManager::getNewMovableActor("astroid1");
 
-	MovableActorPtr astroid2 = ActorManager::Get()->getNewMovableActor("astroid2");
-	ActorManager::Get()->addActor(astroid2);
+	MovableActorPtr astroid2 = ActorManager::getNewMovableActor("astroid2");
 
-	MovableActorPtr astroid3 = ActorManager::Get()->getNewMovableActor("astroid3");
-	ActorManager::Get()->addActor(astroid3);
+	MovableActorPtr astroid3 = ActorManager::getNewMovableActor("astroid3");
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
@@ -60,6 +57,9 @@ void initialize(void)
 	boost::shared_ptr<SceneManager> sceneManager(new SceneManager());
 	sceneManager->setPlayer(player);
 	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
+
+	Level testChamber;
+	testChamber.initializeFromXML("Levels.xml");
 }
 
 int main ()
@@ -81,23 +81,6 @@ int main ()
 
 		inputHandler->handleKeys();
 
-
-		//sf::Vector2f direction = actors[0]->getAcceleration().getVector2f();
-		//std::cout << "Acc x " << cody->getAcceleration().getDirection().x << "  y " << cody->getAcceleration().getDirection().y << std::endl;
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			direction.y = -speed;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			direction.y = speed;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			direction.x = speed;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			direction.x = -speed;
-		}
-		actors[0]->accelerate(Pose(direction.x,direction.y,0));
-		*/
 		IBaseEventManager::Get()->VProcessEvents(5);
 		Window->clear(sf::Color(0,255,255));
 		while ( frameTime > 0.0 - EPSILON)

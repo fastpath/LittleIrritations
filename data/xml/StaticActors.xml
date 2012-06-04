@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <actor name="Background" >
+    <texture value="background_1920x1080" />
+    <position x="0.0" y="0.0" />    
+  </actor>
+</root>

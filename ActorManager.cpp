@@ -1,7 +1,11 @@
 #include "ActorManager.h"
 
-std::string ActorManager::s_xmlFolder = "data/xml/";
 static ActorManager* g_ActorManager = NULL;
+std::map<ActorType,std::list<ActorPtr> > ActorManager::m_actorMap;
+std::map<float,std::list<ActorPtr> > ActorManager::m_drawableActorMap;
+boost::shared_ptr<sf::RenderWindow> ActorManager::m_app;
+std::list<float> ActorManager::m_levels;
+unsigned int ActorManager::m_globalId;
 
 ActorManager::ActorManager(boost::shared_ptr<sf::RenderWindow> p_app) {
 	if (g_ActorManager)
@@ -22,7 +26,7 @@ ActorManager* ActorManager::Get() {
 	return g_ActorManager;
 }
 
-MovableActorPtr ActorManager::getNewMovableActor(std::string p_actorName) {
+MovableActorPtr ActorManager::getNewMovableActor(const std::string& p_actorName) {
 
 	MovableActorPtr movie = MovableActorPtr(new MovableActor(m_globalId++));
 
@@ -34,83 +38,104 @@ MovableActorPtr ActorManager::getNewMovableActor(std::string p_actorName) {
 	{
 		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
 		{
-			for (pugi::xml_node attribute = actor.child("attribute"); attribute; attribute = attribute.next_sibling("attribute"))
+
+			if (actor.child("texture").empty() == 0)
 			{
-				if (std::string("texture").compare(attribute.attribute("key").value()) == 0)
-				{
-					//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
-					movie->setTexture(*TextureLoader::getTexture(attribute.attribute("value").value()));
-				} 
-				if (std::string("scale").compare(attribute.attribute("key").value()) == 0)
-				{
+				//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
+				movie->setTexture(*TextureLoader::getTexture(actor.child("texture").attribute("value").value()));
+			} 
+			if (actor.child("scale").empty() == 0)
+			{
 					
-					std::stringstream x_sstr;
-					float x;
-					x_sstr<<attribute.attribute("x").value();
-					x_sstr>>x;
-					std::stringstream y_sstr;
-					float y;
-					y_sstr<<attribute.attribute("y").value();
-					y_sstr>>y;
-					//std::cout << "scale  " << x << "," << y << std::endl;
-					movie->setScale(x,y);
+				std::stringstream x_sstr;
+				float x;
+				x_sstr<<actor.child("scale").attribute("x").value();
+				x_sstr>>x;
+				std::stringstream y_sstr;
+				float y;
+				y_sstr<<actor.child("scale").attribute("y").value();
+				y_sstr>>y;
+				//std::cout << "scale  " << x << "," << y << std::endl;
+				movie->setScale(x,y);
 
-				} 
-				if (std::string("origin").compare(attribute.attribute("key").value()) == 0)
-				{
-					//std::cout << "origin  " << std::endl;
-					std::stringstream x_sstr;
-					float x;
-					x_sstr<<attribute.attribute("x").value();
-					x_sstr>>x;
-					std::stringstream y_sstr;
-					float y;
-					y_sstr<<attribute.attribute("y").value();
-					y_sstr>>y;
+			} 
+			if (actor.child("origin").empty() == 0)
+			{
+				//std::cout << "origin  " << std::endl;
+				std::stringstream x_sstr;
+				float x;
+				x_sstr<<actor.child("origin").attribute("x").value();
+				x_sstr>>x;
+				std::stringstream y_sstr;
+				float y;
+				y_sstr<<actor.child("origin").attribute("y").value();
+				y_sstr>>y;
 					
-					movie->setOrigin(x,y);
-				} 
-				if (std::string("position").compare(attribute.attribute("key").value()) == 0)
-				{
-					std::stringstream x_sstr;
-					float x;
-					x_sstr<<attribute.attribute("x").value();
-					x_sstr>>x;
-					std::stringstream y_sstr;
-					float y;
-					y_sstr<<attribute.attribute("y").value();
-					y_sstr>>y;
+				movie->setOrigin(x,y);
+			} 
+			if (actor.child("position").empty() == 0)
+			{
+				std::stringstream x_sstr;
+				float x;
+				x_sstr<<actor.child("position").attribute("x").value();
+				x_sstr>>x;
+				std::stringstream y_sstr;
+				float y;
+				y_sstr<<actor.child("position").attribute("y").value();
+				y_sstr>>y;
 
-					//std::cout << "position  " << x << y << std::endl;
+				//std::cout << "position  " << x << y << std::endl;
 
-					movie->setPosition(x,y);
-				} 
-				if (std::string("acceleration").compare(attribute.attribute("key").value()) == 0)
-				{
-					std::stringstream x_sstr;
-					float x;
-					x_sstr<<attribute.attribute("x").value();
-					x_sstr>>x;
-					std::stringstream y_sstr;
-					float y;
-					y_sstr<<attribute.attribute("y").value();
-					y_sstr>>y;
-					std::stringstream rot_sstr;
-					float rot;
-					rot_sstr<<attribute.attribute("rotation").value();
-					rot_sstr>>rot;
-					//std::cout << "acc  " << x << ", " << y << ", " << rot << std::endl;
-					movie->accelerate(Pose(x,y,rot));
-				}
-
+				movie->setPosition(x,y);
+			} 
+			if (actor.child("acceleration").empty() == 0)
+			{
+				std::stringstream x_sstr;
+				float x;
+				x_sstr<<actor.child("acceleration").attribute("x").value();
+				x_sstr>>x;
+				std::stringstream y_sstr;
+				float y;
+				y_sstr<<actor.child("acceleration").attribute("y").value();
+				y_sstr>>y;
+				std::stringstream rot_sstr;
+				float rot;
+				rot_sstr<<actor.child("acceleration").attribute("rotation").value();
+				rot_sstr>>rot;
+				//std::cout << "acc  " << x << ", " << y << ", " << rot << std::endl;
+				movie->accelerate(Pose(x,y,rot));
 			}
 		}
-
-
-
 	}
 
+	ActorManager::addActor(movie);
+
 	return movie;
+}
+
+StaticActorPtr ActorManager::getNewStaticActor(const std::string& p_actorName)
+{
+	StaticActorPtr staty = StaticActorPtr(new StaticActor(m_globalId++));
+
+	pugi::xml_document doc;
+	std::string fileName = Settings::getString("XML_PATH")+"StaticActors.xml";
+	pugi::xml_parse_result result = doc.load_file(fileName.c_str());
+	pugi::xml_node root = doc.child("root");
+	for (pugi::xml_node actor = root.child("actor"); actor; actor = actor.next_sibling("actor"))
+	{
+		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
+		{
+			if (actor.child("texture").empty() == 0)
+			{
+				//std::cout << "texture  " << attribute.attribute("value").value() << std::endl;
+				staty->setTexture(*TextureLoader::getTexture(actor.child("texture").attribute("value").value()));
+			} 
+		}
+	}
+
+	ActorManager::addActor(staty);
+
+	return staty;
 }
 
 void ActorManager::addActor(ActorPtr p_actor)
@@ -118,18 +143,18 @@ void ActorManager::addActor(ActorPtr p_actor)
 	switch (p_actor->getType()) {
 		case MOVABLE_ACTOR: {
 			MovableActorPtr tempPtr = boost::shared_static_cast<MovableActor>(p_actor);
-			s_movableActorMap[tempPtr->getZ()].push_back(tempPtr);
+			m_drawableActorMap[tempPtr->getZ()].push_back(tempPtr);
 			m_levels.push_back(tempPtr->getZ());
 		}break;
 		default:
 			break;
 	}
-	s_actorMap[p_actor->getType()].push_back(p_actor);
+	m_actorMap[p_actor->getType()].push_back(p_actor);
 }
 
 void ActorManager::update(float p_dt)
 {
-	for (auto movableActor = s_actorMap[MOVABLE_ACTOR].begin(); movableActor != s_actorMap[MOVABLE_ACTOR].end(); ++movableActor)
+	for (auto movableActor = m_actorMap[MOVABLE_ACTOR].begin(); movableActor != m_actorMap[MOVABLE_ACTOR].end(); ++movableActor)
 	{
 		boost::shared_ptr<MovableActor> movie = boost::shared_dynamic_cast<MovableActor>(*movableActor);
 		movie->update(p_dt);
@@ -141,11 +166,24 @@ void ActorManager::update(float p_dt)
 	for (auto level = m_levels.begin(); level != m_levels.end(); ++level)
 	{
 		float tmp = *level;
-		std::list<MovableActorPtr> movies = s_movableActorMap[tmp];
-		for (auto movActor = movies.begin(); movActor != movies.end(); ++movActor)
+		std::list<ActorPtr> movies = m_drawableActorMap[tmp];
+		for (auto actor = movies.begin(); actor != movies.end(); ++actor)
 		{
-			MovableActorPtr tempPtr = *movActor;
-			m_app->draw(*tempPtr);
+			switch ( (*actor)->getType() )
+			{
+			case MOVABLE_ACTOR:
+				{
+					MovableActorPtr tempPtr = boost::shared_dynamic_cast<MovableActor>(*actor);
+					m_app->draw(*tempPtr);
+				} break;
+			case STATIC_ACTOR:
+				{
+					StaticActorPtr tempPtr = boost::shared_dynamic_cast<StaticActor>(*actor);
+					m_app->draw(*tempPtr);
+				} break;
+			default:
+				break;
+			}
 			//std::cout << "draaaw   id#" << tempPtr->getId() << "  " << tempPtr->getPosition().x << "," << tempPtr->getPosition().y << std::endl;
 		}
 		

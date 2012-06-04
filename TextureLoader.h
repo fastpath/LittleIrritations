@@ -1,4 +1,5 @@
-#include <boost/container/map.hpp>
+#pragma once
+#include <map>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
@@ -14,6 +15,6 @@ public:
 	static boost::shared_ptr<sf::Texture> getTexture(std::string fileName);
 
 private:
-	static boost::container::map<std::string,boost::shared_ptr<sf::Texture> > s_textures;
+	static std::map<std::string,boost::shared_ptr<sf::Texture> > s_textures;
 };
 
