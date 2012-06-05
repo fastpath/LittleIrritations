@@ -17,7 +17,13 @@ public:
 
 	void initializeFromXML(char* p_fileName);
 
+	bool isReady(void);
+	void setReady(void);
+
 	bool VprocessEvent(EventPtr p_event);
+
+	PolygonPtr getPathPolygon(int p_index);
+	int getPathPolygonCount(void);
 
 private:
 	std::vector<ActorPtr> m_staticActors;
@@ -26,6 +32,9 @@ private:
 	std::vector<PolygonPtr> m_pathPolygons;
 
 	std::map<std::string,bool> m_neededActors;
+	std::map<int,ActorPtr> m_screenActors;
+
+	void checkNewActor(EventPtr p_event);
 
 	bool m_isReady;
 	pugi::xml_node m_root;

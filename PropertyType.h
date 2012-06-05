@@ -4,5 +4,7 @@ enum PropertyType
 	NAME, //std::string
 	POSE, //Pose
 	MOUSEBUTTON,
-	KEY
+	KEY,
+	ACTORTYPE,
+	ACTORPTR
 };

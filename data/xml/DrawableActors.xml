@@ -30,4 +30,8 @@
     <texture value="background_1920x1080" />
     <position x="0.0" y="0.0" />
   </actor>
+  <actor name="Plant" >
+    <texture value="plant_217x351" />
+    <position x="0.0" y="0.0" />
+  </actor>
 </root>

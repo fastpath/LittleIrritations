@@ -25,7 +25,7 @@ boost::shared_ptr<ActorManager> m_actMgr;
 Settings* m_settings;
 boost::shared_ptr<sf::RenderWindow> Window;
 boost::shared_ptr<InputHandler> inputHandler;
-Screen* testChamber;
+boost::shared_ptr<Screen> testChamber;
 
 
 void initialize(void)
@@ -61,8 +61,10 @@ void initialize(void)
 	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
 	m_evtMgr->VAddEventListener(m_actMgr, 1, CREATE_ACTOR);
 
-	testChamber = new Screen();
+	testChamber = boost::shared_ptr<Screen>(new Screen());
 	testChamber->initializeFromXML("Levels.xml");
+
+	m_evtMgr->VAddEventListener(testChamber, 1, NEW_ACTOR);
 }
 
 int main ()
@@ -89,9 +91,12 @@ int main ()
 		while ( frameTime > 0.0 - EPSILON)
          {
 			const float deltaTime = std::min( frameTime, DT );
-
-
 			ActorManager::Get()->update(deltaTime);
+
+			for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
+			{
+				testChamber->getPathPolygon(i)->draw(Window);
+			}
 
             frameTime -= DT;
             t += deltaTime;

@@ -8,7 +8,7 @@
 #include <sstream>
 #include "libs\pugixml\pugixml.hpp"
 #include "Settings.h"
-#include "IEventListener.h"
+#include "EventManagerImpl.h"
 #include "TextureLoader.h"
 
 class ActorManager : public IEventListener

@@ -2,6 +2,7 @@
 enum EventType
 {
 	CREATE_ACTOR = 0,
+	ADD_NEW_ACTOR,
 	MOVE_ACTOR,
 	MOUSE_MOVED,
 	MOUSE_DOWN,

@@ -28,7 +28,7 @@ ActorManager* ActorManager::Get() {
 
 DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose) {
 
-	DrawableActorPtr movie = DrawableActorPtr(new DrawableActor(m_globalId++));
+	
 
 	pugi::xml_document doc;
 	std::string fileName = Settings::getString("XML_PATH")+"DrawableActors.xml";
@@ -38,6 +38,7 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 	{
 		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
 		{
+			DrawableActorPtr movie = DrawableActorPtr(new DrawableActor(m_globalId++));
 			PropertyPtr nameProp = PropertyPtr(new TProperty<std::string>(NAME,p_actorName));
 			movie->addProperty(nameProp);
 			if (actor.child("texture").empty() == 0)
@@ -74,21 +75,40 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 					
 				movie->setOrigin(x,y);
 			} 
-			if (actor.child("position").empty() == 0)
+			if (p_pPose != NULL)
 			{
-				std::stringstream x_sstr;
-				float x;
-				x_sstr<<actor.child("position").attribute("x").value();
-				x_sstr>>x;
-				std::stringstream y_sstr;
-				float y;
-				y_sstr<<actor.child("position").attribute("y").value();
-				y_sstr>>y;
+				movie->setPosition(p_pPose->getX(),p_pPose->getY(),p_pPose->getZ());
+			}
+			else
+			{
+				if (actor.child("position").empty() == 0)
+				{
+					std::stringstream x_sstr;
+					float x;
+					x_sstr<<actor.child("position").attribute("x").value();
+					x_sstr>>x;
 
-				//std::cout << "position  " << x << y << std::endl;
+					std::stringstream y_sstr;
+					float y;
+					y_sstr<<actor.child("position").attribute("y").value();
+					y_sstr>>y;
 
-				movie->setPosition(x,y);
-			} 
+					if (actor.child("position").attribute("z").empty() == 0)
+					{
+						std::stringstream z_sstr;
+						float z;
+						z_sstr<<actor.child("position").attribute("z").value();
+						z_sstr>>z;
+
+						movie->setPosition(x,y,z);
+					}
+					else
+					{
+						movie->setPosition(x,y);
+					}
+					//std::cout << "position  " << x << y << std::endl;
+				}
+			}
 			if (actor.child("acceleration").empty() == 0)
 			{
 				std::stringstream x_sstr;
@@ -107,9 +127,10 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 				movie->accelerate(Pose(x,y,rot));
 			}
 			ActorManager::addActor(movie);
+			return movie;
 		}
 	}
-	return movie;
+	return DrawableActorPtr();
 }
 
 void ActorManager::addActor(ActorPtr p_actor)
@@ -178,13 +199,42 @@ bool ActorManager::VprocessEvent(EventPtr p_event)
 
 				if (p_event->HasProperty(POSE))
 				{
-					
 					Pose pose;
 					p_event->GetProperty(pose,POSE);
 					actorPose = &pose;
 					std::cout << "Voll der Poser   " << pose << std::endl;
 				}
-				ActorManager::getNewDrawableActor(actorName, actorPose);
+				if (p_event->HasProperty(ACTORTYPE))
+				{
+					ActorPtr newActor;
+
+					ActorType actorType;
+					p_event->GetProperty(actorType,ACTORTYPE);
+					switch (actorType)
+					{
+						case DRAWABLE_ACTOR:
+							{
+								newActor = ActorManager::getNewDrawableActor(actorName, actorPose);
+							} break;
+						default:
+							break;
+					}
+
+					if (newActor != DrawableActorPtr())
+					{
+						EventPtr newEvent(new Event(NEW_ACTOR,0.0f));
+
+						PropertyPtr newActorPtr = PropertyPtr(new TProperty<ActorPtr>(ACTORPTR,newActor));
+						newEvent->addProperty(newActorPtr);
+
+						PropertyPtr newActorName = PropertyPtr(new TProperty<std::string>(NAME,actorName));
+						newEvent->addProperty(newActorName);
+
+						IBaseEventManager::Get()->VQueueEvent(newEvent);
+						std::cout << "NEW ACTOR MAAN" << std::endl;
+					}
+				}
+				
 
 			}
 		default:

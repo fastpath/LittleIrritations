@@ -3,9 +3,9 @@
 		<staticActor name="Background">
 			<position x="0" y="0" z="-2" />
 		</staticActor>
-		<staticActor name="Plant">
-			<position x="0.7" y="0.3" z="-1" />
-		</staticActor>
+    <staticActor name="Plant">
+      <position x="622" y="730" z="3" />
+    </staticActor>
 	</staticActors>
   <pathPolygons>
     <pathPolygon>
