@@ -25,10 +25,10 @@ public:
 
 	//PropertyPtr GetProperty(PropertyType p_type);
 	template <typename T>
-	void GetProperty(T& value, PropertyType p_type) {
+	void GetProperty(T& p_value, PropertyType p_type) {
 		PropertyPtr prop = m_properties[p_type];
 		boost::shared_ptr<TProperty<T>> tmp = boost::shared_static_cast<TProperty<T>>(prop);
-		value = tmp->GetValue();
+		p_value = tmp->GetValue();
 	}
 
 

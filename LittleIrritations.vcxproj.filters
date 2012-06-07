@@ -106,6 +106,12 @@
     <ClCompile Include="MovableActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyProcessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractActor.h">
@@ -178,6 +184,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MovableActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyProcessManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
