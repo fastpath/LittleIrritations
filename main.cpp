@@ -30,6 +30,16 @@ boost::shared_ptr<Screen> testChamber;
 
 void initialize(void)
 {
+	//detect an instance of the game
+	//Calculates secondary storage space and memory
+	//cpu speed
+	//loads resourche cache
+		//read from a zip file
+	//loads strings
+	//script manager
+	//event manager
+	//game logic and views
+	//preloads savegames and resources
 
 	m_settings = new Settings();
 
