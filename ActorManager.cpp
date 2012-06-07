@@ -77,7 +77,7 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 			} 
 			if (p_pPose != NULL)
 			{
-				movie->setPosition(p_pPose->getX(),p_pPose->getY(),p_pPose->getZ());
+				movie->VsetPosition(p_pPose->getX(),p_pPose->getY(),p_pPose->getZ());
 			}
 			else
 			{
@@ -100,7 +100,7 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 						z_sstr<<actor.child("position").attribute("z").value();
 						z_sstr>>z;
 
-						movie->setPosition(x,y,z);
+						movie->VsetPosition(x,y,z);
 					}
 					else
 					{
@@ -152,7 +152,7 @@ void ActorManager::update(float p_dt)
 	for (auto drawableActor = m_actorMap[DRAWABLE_ACTOR].begin(); drawableActor != m_actorMap[DRAWABLE_ACTOR].end(); ++drawableActor)
 	{
 		boost::shared_ptr<DrawableActor> movie = boost::shared_dynamic_cast<DrawableActor>(*drawableActor);
-		movie->update(p_dt);
+		movie->Vupdate(p_dt);
 	}
 
 	m_levels.unique();

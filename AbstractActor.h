@@ -13,7 +13,7 @@ public:
 	AbstractActor(int p_id, ActorType p_type);
 	~AbstractActor(void);
 
-	virtual void update(float dt) = 0;
+	virtual void Vupdate(float dt) = 0;
 
 	int getId();
 	ActorType getType();

@@ -28,6 +28,5 @@ public:
 
 private:
 	std::vector<boost::shared_ptr<sf::Vector2f>> m_points;
-	std::vector<boost::shared_ptr<sf::Vector2f>> m_drawablePoints;
 };
 

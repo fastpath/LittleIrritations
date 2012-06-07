@@ -95,6 +95,7 @@
     <ClCompile Include="IScreenManager.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="InputListener.cpp" />
+    <ClCompile Include="MovableActor.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="libs\pugixml\pugixml.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="IScreenManager.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="InputListener.h" />
+    <ClInclude Include="MovableActor.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="libs\pugixml\pugixml.hpp" />

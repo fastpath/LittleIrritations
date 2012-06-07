@@ -8,7 +8,7 @@
 class SceneManager : public IEventListener
 {
 private:
-	boost::shared_ptr<Player> player;
+	boost::shared_ptr<Player> m_player;
 
 	bool VprocessEvent(EventPtr p_event);	
 
@@ -16,6 +16,8 @@ public:
 	SceneManager(void);
 	~SceneManager(void);
 
-	void setPlayer(boost::shared_ptr<Player> newPlayer){ player = newPlayer;};
+	void setPlayer(boost::shared_ptr<Player> p_newPlayer){ m_player = p_newPlayer;};
+
+	bool m_guiActive;
 };
 

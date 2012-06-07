@@ -33,7 +33,23 @@ void initialize(void)
 
 	m_settings = new Settings();
 
-	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(Settings::getUnsignedInt("WIDTH"),Settings::getUnsignedInt("HEIGTH")),"Little Irritations"));
+	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+	for (std::size_t i = 0; i < modes.size(); ++i)
+	{
+		sf::VideoMode mode = modes[i];
+		//std::cout << "Mode #" << i << ": "
+		//			<< mode.width << "x" << mode.height << " - "
+		//			<< mode.bitsPerPixel << " bpp" << std::endl;
+	}
+
+	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	Window = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(Settings::getUnsignedInt("WIDTH"),Settings::getUnsignedInt("HEIGTH"),desktop.bitsPerPixel),"Little Irritations"/*,sf::Style::Fullscreen*/));
+	sf::View view;
+	view.reset(sf::FloatRect(0,0,1920,1080));
+	//view.rotate(45);
+	view.setViewport(sf::FloatRect(0.f, 0.f,1.0f,1.0f));
+	Window->setView(view);
+
 	Window->setKeyRepeatEnabled(false);
 	sf::ContextSettings cs = Window->getSettings();
 	Window->setFramerateLimit(FRAMERATE);

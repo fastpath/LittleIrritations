@@ -56,7 +56,10 @@ void InputHandler::handleKeys() {
 				case sf::Event::MouseButtonPressed:{
 					EventPtr newEvent(new Event(MOUSE_DOWN,0.0f));
 
-					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+					sf::Vector2i mouseCoords(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+					sf::Vector2f viewCoords = m_app->convertCoords(mouseCoords);
+
+					Pose tmpPos(viewCoords.x,viewCoords.y);
 					PropertyPtr position = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
 					newEvent->addProperty(position);
 
@@ -68,7 +71,11 @@ void InputHandler::handleKeys() {
 				// MouseUp
 				case sf::Event::MouseButtonReleased:{
 					EventPtr newEvent(new Event(MOUSE_UP,0.0f));
-					Pose tmpPos(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+
+					sf::Vector2i mouseCoords(sfmlEvent.mouseButton.x,sfmlEvent.mouseButton.y);
+					sf::Vector2f viewCoords = m_app->convertCoords(mouseCoords);
+
+					Pose tmpPos(viewCoords.x,viewCoords.y);
 					PropertyPtr position = PropertyPtr(new TProperty<Pose>(POSE,tmpPos));
 					newEvent->addProperty(position);
 

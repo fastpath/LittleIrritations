@@ -73,9 +73,9 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 			p_event->GetProperty(buttonID, MOUSEBUTTON);
 			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 			if(buttonID == sf::Mouse::Button::Left)
-				player->moveCurrentActorAbsolute(tmpPos.getX(), tmpPos.getY());
+				m_player->moveCurrentActorAbsolute(tmpPos.getX(), tmpPos.getY());
 			else if(buttonID == sf::Mouse::Button::Right)
-				player->accelerateActorToNewPosition(tmpPos);
+				m_player->accelerateActorToNewPosition(tmpPos);
 			break;
 		}
 		default:{
