@@ -30,12 +30,24 @@ public:
 	~MyProcess(void);
 
 		// Functions for ending the process.
-	inline void succeed(void);
-	inline void fail(void);
+	inline void succeed(void)
+	{
+		m_state = SUCCEEDED;
+	};
+	inline void fail(void)
+	{
+		m_state = FAILED;
+	};
 	
 	// pause
-	inline void pause(void);
-	inline void unPause(void);
+	inline void pause(void)
+	{
+		m_state = PAUSED;
+	};
+	inline void unPause(void)
+	{
+		m_state = RUNNING;
+	};
 
 	// accessors
 	State getState(void) const;

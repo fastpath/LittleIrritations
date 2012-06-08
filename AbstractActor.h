@@ -18,7 +18,7 @@ public:
 	int getId();
 	ActorType getType();
 	void addProperty(PropertyPtr p_property);
-	bool hasProperty(PropertyType& p_type);
+	bool hasProperty(PropertyType p_type);
 
 	template <typename T>
 	void GetProperty(T& value, PropertyType p_type) {

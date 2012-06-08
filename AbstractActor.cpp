@@ -21,7 +21,7 @@ ActorType AbstractActor::getType()
 	return m_type;
 }
 
-bool AbstractActor::hasProperty(PropertyType& p_type)
+bool AbstractActor::hasProperty(PropertyType p_type)
 {
 	bool success = false;
 	auto itProp = m_properties.find(p_type);

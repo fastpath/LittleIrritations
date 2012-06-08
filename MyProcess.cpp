@@ -121,4 +121,4 @@ bool MyProcess::isPaused(void) const
 void MyProcess::VonInit(void)
 {
 	m_state = RUNNING;
-} 
+}

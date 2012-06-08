@@ -3,6 +3,9 @@
 #include "Pose.h"
 #include <iostream>
 
+class MovableActor;
+typedef boost::shared_ptr<MovableActor> MovableActorStrongPtr;
+typedef boost::weak_ptr<MovableActor> MovableActorWeakPtr;
 
 class MovableActor : public AbstractActor
 {

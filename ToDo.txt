@@ -1,0 +1,6 @@
+Pathfinder
+
+Interface fur Actors mit Properties
+
+//Pathfinder, Pointer auf Funktionsvariable
+//eigene Vektorklasse

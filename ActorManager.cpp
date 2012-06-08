@@ -238,6 +238,19 @@ bool ActorManager::VprocessEvent(EventPtr p_event)
 				
 
 			}
+
+		case MOVE_ACTOR:
+		{
+			//MovableActorWeakPtr movActor;
+			//p_event->GetProperty(movActor,MOVABLEACTORPTR);
+
+			//boost::shared_ptr<sf::Vector3f> movVector;
+			//p_event->GetProperty(movVector,VECTOR3FPTR);
+			/*
+			movActor.lock()->VsetPosition(movVector->x,movVector->y);*/
+			//std::cout << "Movie name:: " << std::endl;
+			
+		}
 		default:
 			break;
 	}

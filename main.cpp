@@ -16,6 +16,7 @@
 #include "Settings.h"
 #include "Screen.h"
 #include "MyProcessManager.h"
+#include "PathAnimator.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
@@ -69,7 +70,6 @@ void initialize(void)
 	m_evtMgr = new EventManagerImpl("Super EventManager", true);
 	m_actMgr = boost::shared_ptr<ActorManager>(new ActorManager(Window));
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
-	
 
 	DrawableActorWeakPtr cody = ActorManager::getNewDrawableActor("cody");
 
@@ -87,7 +87,7 @@ void initialize(void)
 	sceneManager->setPlayer(player);
 	
 	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
-	m_evtMgr->VAddEventListener(boost::shared_dynamic_cast<IEventListener>(m_actMgr), 1, CREATE_ACTOR);
+	m_evtMgr->VAddEventListener(boost::shared_dynamic_cast<IEventListener>(m_actMgr), 2, CREATE_ACTOR, MOVE_ACTOR);
 
 	testChamber = boost::shared_ptr<Screen>(new Screen());
 	testChamber->initializeFromXML("Levels.xml");
@@ -96,6 +96,19 @@ void initialize(void)
 	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(m_actMgr));
 
 	m_evtMgr->VAddEventListener(testChamber, 1, NEW_ACTOR);
+
+	boost::shared_ptr<sf::Vector3f> point1 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(0,0,0));
+	boost::shared_ptr<sf::Vector3f> point2 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(100,100,100));
+	boost::shared_ptr<sf::Vector3f> point3 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(300,300,300));
+
+	PropertyLinePtr line1 = PropertyLinePtr(new PropertyLine(point1,point2));
+	PropertyLinePtr line2 = PropertyLinePtr(new PropertyLine(point2,point3));
+
+	boost::shared_ptr<PathAnimator> pathAnim = boost::shared_ptr<PathAnimator>(new PathAnimator(MovableActorWeakPtr(boost::shared_dynamic_cast<MovableActor>(cody.lock()))));
+	pathAnim->addLine(line1);
+	pathAnim->addLine(line2);
+
+	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
 }
 
 int main ()
@@ -125,11 +138,11 @@ int main ()
 			procMngr->updateProcesses(deltaTime);
 			//ActorManager::Get()->VonUpdate(deltaTime);
 
-			/*for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
+			for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
 			{
 				testChamber->getPathPolygon(i)->draw(Window);
 			}
-			*/
+			
             frameTime -= DT;
             t += deltaTime;
          }

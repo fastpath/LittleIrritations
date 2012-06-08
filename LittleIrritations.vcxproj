@@ -84,6 +84,7 @@
     <None Include="data\xml\Levels.xml" />
     <None Include="data\xml\DrawableActors.xml" />
     <None Include="ReadMe.txt" />
+    <None Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractActor.cpp" />
@@ -98,7 +99,9 @@
     <ClCompile Include="MovableActor.cpp" />
     <ClCompile Include="MyProcess.cpp" />
     <ClCompile Include="MyProcessManager.cpp" />
+    <ClCompile Include="PathAnimator.cpp" />
     <ClCompile Include="Polygon.cpp" />
+    <ClCompile Include="PropertyLine.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="libs\pugixml\pugixml.cpp" />
     <ClCompile Include="main.cpp" />
@@ -126,7 +129,9 @@
     <ClInclude Include="MovableActor.h" />
     <ClInclude Include="MyProcess.h" />
     <ClInclude Include="MyProcessManager.h" />
+    <ClInclude Include="PathAnimator.h" />
     <ClInclude Include="Polygon.h" />
+    <ClInclude Include="PropertyLine.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="libs\pugixml\pugixml.hpp" />
     <ClInclude Include="DrawableActor.h" />
