@@ -15,10 +15,11 @@
 #include "EventManagerImpl.h"
 #include "Settings.h"
 #include "Screen.h"
+#include "MyProcessManager.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
-const float EPSILON = 0.01;
+const float EPSILON = 0.00;
 
 EventManagerImpl* m_evtMgr;
 boost::shared_ptr<ActorManager> m_actMgr;
@@ -26,6 +27,7 @@ Settings* m_settings;
 boost::shared_ptr<sf::RenderWindow> Window;
 boost::shared_ptr<InputHandler> inputHandler;
 boost::shared_ptr<Screen> testChamber;
+boost::shared_ptr<MyProcessManager> procMngr;
 
 
 void initialize(void)
@@ -69,13 +71,13 @@ void initialize(void)
 	inputHandler = boost::shared_ptr<InputHandler>(new InputHandler(Window));
 	
 
-	DrawableActorPtr cody = ActorManager::getNewDrawableActor("cody");
+	DrawableActorWeakPtr cody = ActorManager::getNewDrawableActor("cody");
 
-	DrawableActorPtr astroid1 = ActorManager::getNewDrawableActor("astroid1");
+	DrawableActorWeakPtr astroid1 = ActorManager::getNewDrawableActor("astroid1");
 
-	DrawableActorPtr astroid2 = ActorManager::getNewDrawableActor("astroid2");
+	DrawableActorWeakPtr astroid2 = ActorManager::getNewDrawableActor("astroid2");
 
-	DrawableActorPtr astroid3 = ActorManager::getNewDrawableActor("astroid3");
+	DrawableActorWeakPtr astroid3 = ActorManager::getNewDrawableActor("astroid3");
 
 	// Event Testing
 	boost::shared_ptr<Player> player(new Player());
@@ -85,10 +87,13 @@ void initialize(void)
 	sceneManager->setPlayer(player);
 	
 	m_evtMgr->VAddEventListener(sceneManager, 5, KEY_PRESSED,MOUSE_MOVED,KEY_RELEASED, MOUSE_DOWN, MOUSE_UP);
-	m_evtMgr->VAddEventListener(m_actMgr, 1, CREATE_ACTOR);
+	m_evtMgr->VAddEventListener(boost::shared_dynamic_cast<IEventListener>(m_actMgr), 1, CREATE_ACTOR);
 
 	testChamber = boost::shared_ptr<Screen>(new Screen());
 	testChamber->initializeFromXML("Levels.xml");
+
+	procMngr = boost::shared_ptr<MyProcessManager>(new MyProcessManager());
+	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(m_actMgr));
 
 	m_evtMgr->VAddEventListener(testChamber, 1, NEW_ACTOR);
 }
@@ -116,14 +121,15 @@ int main ()
 		Window->clear(sf::Color(0,255,255));
 		while ( frameTime > 0.0 - EPSILON)
          {
-			const float deltaTime = std::min( frameTime, DT );
-			ActorManager::Get()->update(deltaTime);
+			float deltaTime = std::min( frameTime, DT );
+			procMngr->updateProcesses(deltaTime);
+			//ActorManager::Get()->VonUpdate(deltaTime);
 
-			for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
+			/*for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
 			{
 				testChamber->getPathPolygon(i)->draw(Window);
 			}
-
+			*/
             frameTime -= DT;
             t += deltaTime;
          }

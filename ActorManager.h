@@ -10,17 +10,18 @@
 #include "Settings.h"
 #include "EventManagerImpl.h"
 #include "TextureLoader.h"
+#include "MyProcess.h"
 
-class ActorManager : public IEventListener
+class ActorManager : public IEventListener, public MyProcess
 {
 public:
 	ActorManager(void);
 	ActorManager(boost::shared_ptr<sf::RenderWindow> p_app);
 	~ActorManager(void);
 
-	static DrawableActorPtr getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose = NULL);
+	static DrawableActorWeakPtr getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose = NULL);
 
-	void update(float p_dt);
+	virtual void VonUpdate(float p_deltaMs);
 
 	static ActorManager* Get(void);
 

@@ -11,24 +11,36 @@ Player::~Player(void)
 {
 }
 
-void Player::setActiveActor(DrawableActorPtr p_actor)
+void Player::setActiveActor(DrawableActorWeakPtr p_actor)
 {
 	m_activeActor = p_actor;
 }
 
 void Player::moveCurrentActorOffsetBased(int xOffset, int yOffset)
 {
-	m_activeActor->setPosition( m_activeActor->getPosition().x + xOffset, m_activeActor->getPosition().y + yOffset );
+	DrawableActorStrongPtr activeActor = m_activeActor.lock();
+	if (activeActor != NULL)
+	{
+		activeActor->setPosition( activeActor->getPosition().x + xOffset, activeActor->getPosition().y + yOffset );
+	}
 }
 
 void Player::moveCurrentActorAbsolute(int newX, int newY)
 {
-	m_activeActor->setPosition( newX, newY );
+	DrawableActorStrongPtr activeActor = m_activeActor.lock();
+	if (activeActor != NULL)
+	{
+		activeActor->setPosition( newX, newY );
+	}
 }
 
 void Player::accelerateActorToNewPosition(Pose newPose)
 {
-	m_activeActor->accelerate(Pose(newPose.getX() - m_activeActor->getPosition().x, newPose.getY() - m_activeActor->getPosition().y, 0));
+	DrawableActorStrongPtr activeActor = m_activeActor.lock();
+	if (activeActor != NULL)
+	{
+		activeActor->accelerate(Pose(newPose.getX() - activeActor->getPosition().x, newPose.getY() - activeActor->getPosition().y, 0));
+	}
 }
 
 bool Player::VprocessEvent(EventPtr p_event)

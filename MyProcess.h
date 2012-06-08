@@ -3,8 +3,8 @@
 #include <boost/weak_ptr.hpp>
 
 class MyProcess;
-typedef boost::shared_ptr<MyProcess> MyProcessStrPtr;
-typedef boost::weak_ptr<MyProcess> MyProcessWeaPtr;
+typedef boost::shared_ptr<MyProcess> MyProcessStrongPtr;
+typedef boost::weak_ptr<MyProcess> MyProcessWeakPtr;
 
 class MyProcess
 {
@@ -45,20 +45,20 @@ public:
 	bool isPaused(void) const;
 
 	// child functions
-	inline void attachChild(MyProcessStrPtr pChild);
-	MyProcessStrPtr removeChild(void);  // releases ownership of the child
-	MyProcessStrPtr peekChild(void);  // doesn't release ownership
+	inline void attachChild(MyProcessStrongPtr pChild);
+	MyProcessStrongPtr removeChild(void);  // releases ownership of the child
+	MyProcessStrongPtr peekChild(void);  // doesn't release ownership
 
 protected:
 	virtual void VonInit(void);  // called during the first update; responsible for setting the initial state (typically RUNNING)
-	virtual void VonUpdate(unsigned long deltaMs) = 0;  // called every frame
+	virtual void VonUpdate(float deltaMs) = 0;  // called every frame
 	virtual void VonSuccess(void) { }  // called if the process succeeds (see below)
 	virtual void VonFail(void) { }  // called if the process fails (see below)
 	virtual void VonAbort(void) { }  // called if the process is aborted (see below)
 
 private:
 	State m_state;  // the current state of the process
-	MyProcessStrPtr m_pChild;  // the child process, if any
+	MyProcessStrongPtr m_pChild;  // the child process, if any
 	void setState(State p_newState);
 
 

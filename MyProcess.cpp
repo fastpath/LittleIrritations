@@ -60,20 +60,20 @@ bool Process::AttachToParent(Process* pParent)
 // Removes the child from this process.  This releases ownership of the child to the caller and completely removes it
 // from the process chain.
 //---------------------------------------------------------------------------------------------------------------------
-MyProcessStrPtr MyProcess::removeChild(void)
+MyProcessStrongPtr MyProcess::removeChild(void)
 {
 	if (m_pChild)
 	{
-        MyProcessStrPtr pChild = m_pChild;  // this keeps the child from getting destroyed when we clear it
+        MyProcessStrongPtr pChild = m_pChild;  // this keeps the child from getting destroyed when we clear it
 		m_pChild.reset();
 		//pChild->SetParent(NULL);
         return pChild;
 	}
 
-	return MyProcessStrPtr();
+	return MyProcessStrongPtr();
 }
 
-MyProcessStrPtr MyProcess::peekChild(void) { 
+MyProcessStrongPtr MyProcess::peekChild(void) { 
 	return m_pChild; 
 }
 

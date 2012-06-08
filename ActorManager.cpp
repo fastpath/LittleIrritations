@@ -26,7 +26,7 @@ ActorManager* ActorManager::Get() {
 	return g_ActorManager;
 }
 
-DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose) {
+DrawableActorWeakPtr ActorManager::getNewDrawableActor(const std::string& p_actorName, Pose* p_pPose) {
 
 	
 
@@ -38,7 +38,7 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 	{
 		if ( p_actorName.compare(actor.attribute("name").value()) == 0)
 		{
-			DrawableActorPtr movie = DrawableActorPtr(new DrawableActor(m_globalId++));
+			DrawableActorStrongPtr movie = DrawableActorStrongPtr(new DrawableActor(m_globalId++));
 			PropertyPtr nameProp = PropertyPtr(new TProperty<std::string>(NAME,p_actorName));
 			movie->addProperty(nameProp);
 			if (actor.child("texture").empty() == 0)
@@ -127,17 +127,17 @@ DrawableActorPtr ActorManager::getNewDrawableActor(const std::string& p_actorNam
 				movie->accelerate(Pose(x,y,rot));
 			}
 			ActorManager::addActor(movie);
-			return movie;
+			return DrawableActorWeakPtr(movie);
 		}
 	}
-	return DrawableActorPtr();
+	return DrawableActorWeakPtr();
 }
 
 void ActorManager::addActor(ActorPtr p_actor)
 {
 	switch (p_actor->getType()) {
 		case DRAWABLE_ACTOR: {
-			DrawableActorPtr tempPtr = boost::shared_static_cast<DrawableActor>(p_actor);
+			DrawableActorStrongPtr tempPtr = boost::shared_static_cast<DrawableActor>(p_actor);
 			m_drawableActorMap[tempPtr->getZ()].push_back(tempPtr);
 			m_levels.push_back(tempPtr->getZ());
 		}break;
@@ -147,12 +147,13 @@ void ActorManager::addActor(ActorPtr p_actor)
 	m_actorMap[p_actor->getType()].push_back(p_actor);
 }
 
-void ActorManager::update(float p_dt)
+void ActorManager::VonUpdate(float p_deltaMs)
 {
+	//std::cout << "How its going" << std::endl;
 	for (auto drawableActor = m_actorMap[DRAWABLE_ACTOR].begin(); drawableActor != m_actorMap[DRAWABLE_ACTOR].end(); ++drawableActor)
 	{
 		boost::shared_ptr<DrawableActor> movie = boost::shared_dynamic_cast<DrawableActor>(*drawableActor);
-		movie->Vupdate(p_dt);
+		movie->Vupdate(p_deltaMs);
 	}
 
 	m_levels.unique();
@@ -169,7 +170,7 @@ void ActorManager::update(float p_dt)
 			{
 			case DRAWABLE_ACTOR:
 				{
-					DrawableActorPtr tempPtr = boost::shared_dynamic_cast<DrawableActor>(*actor);
+					DrawableActorStrongPtr tempPtr = boost::shared_dynamic_cast<DrawableActor>(*actor);
 					//std::string name;
 					//tempPtr->GetProperty(name,NAME);
 					//std::cout << "Movie name:: " << name << std::endl;
@@ -214,13 +215,13 @@ bool ActorManager::VprocessEvent(EventPtr p_event)
 					{
 						case DRAWABLE_ACTOR:
 							{
-								newActor = ActorManager::getNewDrawableActor(actorName, actorPose);
+								newActor = ActorManager::getNewDrawableActor(actorName, actorPose).lock();
 							} break;
 						default:
 							break;
 					}
 
-					if (newActor != DrawableActorPtr())
+					if (newActor != DrawableActorStrongPtr())
 					{
 						EventPtr newEvent(new Event(NEW_ACTOR,0.0f));
 

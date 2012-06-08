@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include "Pose.h"
 #include <iostream>
+#include <boost/weak_ptr.hpp>
 
 class DrawableActor;
-typedef boost::shared_ptr<DrawableActor> DrawableActorPtr;
+typedef boost::shared_ptr<DrawableActor> DrawableActorStrongPtr;
+typedef boost::weak_ptr<DrawableActor> DrawableActorWeakPtr;
 
 class DrawableActor : public MovableActor, public sf::Sprite
 {
@@ -15,7 +17,7 @@ public:
 
 	virtual void VsetPosition(float p_x, float p_y, float p_z);
 	virtual void VsetPosition(float p_x, float p_y);
-	virtual void Vupdate(float p_dt);
+	virtual void Vupdate(float p_deltaMs);
 
 	~DrawableActor(void);
 };
