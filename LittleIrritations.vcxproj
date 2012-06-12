@@ -93,6 +93,7 @@
     <ClCompile Include="EventManagerImpl.cpp" />
     <ClCompile Include="IBaseEventManager.cpp" />
     <ClCompile Include="IEventListener.cpp" />
+    <ClCompile Include="IPropertyActor.cpp" />
     <ClCompile Include="IScreenManager.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="InputListener.cpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="MyProcess.cpp" />
     <ClCompile Include="MyProcessManager.cpp" />
     <ClCompile Include="PathAnimator.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="PropertyLine.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="EventType.h" />
     <ClInclude Include="IBaseEventManager.h" />
     <ClInclude Include="IEventListener.h" />
+    <ClInclude Include="IPropertyActor.h" />
     <ClInclude Include="IScreenManager.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="InputListener.h" />
@@ -130,6 +133,7 @@
     <ClInclude Include="MyProcess.h" />
     <ClInclude Include="MyProcessManager.h" />
     <ClInclude Include="PathAnimator.h" />
+    <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="PropertyLine.h" />
     <ClInclude Include="Screen.h" />

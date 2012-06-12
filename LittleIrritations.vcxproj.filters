@@ -119,6 +119,12 @@
     <ClCompile Include="PropertyLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IPropertyActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractActor.h">
@@ -203,6 +209,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PropertyLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IPropertyActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

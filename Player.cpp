@@ -50,7 +50,7 @@ bool Player::VprocessEvent(EventPtr p_event)
 		case KEY_PRESSED: {
 			std::cout << "Key Pressed Event beim Player angekommen!   ";
 			sf::Keyboard::Key pressedKey;
-			p_event->GetProperty(pressedKey,KEY);
+			p_event->getProperty(pressedKey,KEY);
 
 			switch (pressedKey) 
 			{
@@ -84,25 +84,25 @@ bool Player::VprocessEvent(EventPtr p_event)
 			{
 				//std::cout << "Mouse Moved Event beim Player angekommen!   ";
 				Pose tmpPos;
-				p_event->GetProperty(tmpPos,POSE);
+				p_event->getProperty(tmpPos,POSE);
 				//std::cout << "Position " << tmpPos << std::endl;
 			} break;
 		case MOUSE_DOWN:
 			{
 				std::cout << "Mouse Down Event beim Player angekommen!   ";
 				Pose tmpPos;
-				p_event->GetProperty(tmpPos,POSE);
+				p_event->getProperty(tmpPos,POSE);
 				int buttonID;
-				p_event->GetProperty(buttonID, MOUSEBUTTON);
+				p_event->getProperty(buttonID, MOUSEBUTTON);
 				std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 			} break;
 		case MOUSE_UP:
 			{
 				std::cout << "Mouse Up Event beim Player angekommen!   ";
 				Pose tmpPos;
-				p_event->GetProperty(tmpPos,POSE);
+				p_event->getProperty(tmpPos,POSE);
 				int buttonID;
-				p_event->GetProperty(buttonID, MOUSEBUTTON);
+				p_event->getProperty(buttonID, MOUSEBUTTON);
 				std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 			} break;
 		default:

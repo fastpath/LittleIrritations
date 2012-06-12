@@ -112,10 +112,10 @@ void Screen::checkNewActor(EventPtr p_event)
 	if (!m_isReady)
 	{
 		std::string newActorName;
-		p_event->GetProperty(newActorName,NAME);
+		p_event->getProperty(newActorName,NAME);
 
 		ActorPtr newActorPtr;
-		p_event->GetProperty(newActorPtr,ACTORPTR);
+		p_event->getProperty(newActorPtr,ACTORPTR);
 
 		int readyCount = m_neededActors.size();
 		for (auto itNeededActors = m_neededActors.begin(); itNeededActors != m_neededActors.end(); ++itNeededActors)

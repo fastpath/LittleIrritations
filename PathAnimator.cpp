@@ -23,11 +23,11 @@ void PathAnimator::VonInit(void)
 	float actorWalkspeed = 0.0f;
 	if (m_pCurrActor.lock() != NULL && m_pCurrActor.lock()->hasProperty(ACTOR_WALKSPEED))
 	{
-		m_pCurrActor.lock()->GetProperty(actorWalkspeed,ACTOR_WALKSPEED);
+		m_pCurrActor.lock()->getProperty(actorWalkspeed,ACTOR_WALKSPEED);
 	} 
 	else
 	{
-		actorWalkspeed = 10.0f;
+		actorWalkspeed = 100.0f;
 	}
 
 	for (int i=0; i < m_pathLines.size(); ++i)
@@ -36,7 +36,7 @@ void PathAnimator::VonInit(void)
 		float lineWalkspeed = 0.0f;
 		if (currLine->hasProperty(LINE_WALKSPEED))
 		{
-			currLine->GetProperty(lineWalkspeed,LINE_WALKSPEED);
+			currLine->getProperty(lineWalkspeed,LINE_WALKSPEED);
 		} 
 		else
 		{
@@ -48,7 +48,7 @@ void PathAnimator::VonInit(void)
 
 		float resultTime = (length/(actorWalkspeed*lineWalkspeed));
 
-		std::cout << "currLine " << i << " resultTime " << resultTime << std::endl;
+		//std::cout << "currLine " << i << " resultTime " << resultTime << std::endl;
 
 		m_pathDuration += resultTime;
 

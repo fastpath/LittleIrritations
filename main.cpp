@@ -100,13 +100,16 @@ void initialize(void)
 	boost::shared_ptr<sf::Vector3f> point1 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(0,0,0));
 	boost::shared_ptr<sf::Vector3f> point2 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(100,100,100));
 	boost::shared_ptr<sf::Vector3f> point3 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(300,300,300));
+	boost::shared_ptr<sf::Vector3f> point4 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(800,300,300));
 
 	PropertyLinePtr line1 = PropertyLinePtr(new PropertyLine(point1,point2));
 	PropertyLinePtr line2 = PropertyLinePtr(new PropertyLine(point2,point3));
+	PropertyLinePtr line3 = PropertyLinePtr(new PropertyLine(point3,point4));
 
 	boost::shared_ptr<PathAnimator> pathAnim = boost::shared_ptr<PathAnimator>(new PathAnimator(MovableActorWeakPtr(boost::shared_dynamic_cast<MovableActor>(cody.lock()))));
 	pathAnim->addLine(line1);
 	pathAnim->addLine(line2);
+	pathAnim->addLine(line3);
 
 	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
 }

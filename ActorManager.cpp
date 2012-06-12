@@ -193,24 +193,24 @@ bool ActorManager::VprocessEvent(EventPtr p_event)
 			{
 				std::cout << "HALLOOOOO" << std::endl;
 				std::string actorName;
-				p_event->GetProperty(actorName,NAME);
+				p_event->getProperty(actorName,NAME);
 				std::cout << "Movie name:: " << actorName << std::endl;
 
 				Pose* actorPose = NULL;
 
-				if (p_event->HasProperty(POSE))
+				if (p_event->hasProperty(POSE))
 				{
 					Pose pose;
-					p_event->GetProperty(pose,POSE);
+					p_event->getProperty(pose,POSE);
 					actorPose = &pose;
 					std::cout << "Voll der Poser   " << pose << std::endl;
 				}
-				if (p_event->HasProperty(ACTORTYPE))
+				if (p_event->hasProperty(ACTORTYPE))
 				{
 					ActorPtr newActor;
 
 					ActorType actorType;
-					p_event->GetProperty(actorType,ACTORTYPE);
+					p_event->getProperty(actorType,ACTORTYPE);
 					switch (actorType)
 					{
 						case DRAWABLE_ACTOR:
@@ -237,20 +237,24 @@ bool ActorManager::VprocessEvent(EventPtr p_event)
 				}
 				
 
-			}
+			}break;
 
 		case MOVE_ACTOR:
 		{
-			//MovableActorWeakPtr movActor;
-			//p_event->GetProperty(movActor,MOVABLEACTORPTR);
+			if (p_event->hasProperty(VECTOR3FPTR) && p_event->hasProperty(MOVABLEACTORPTR))
+			{
+				MovableActorWeakPtr movActor;
+				p_event->getProperty(movActor,MOVABLEACTORPTR);
+				boost::shared_ptr<sf::Vector3f> movVector;
+				p_event->getProperty(movVector,VECTOR3FPTR);
+				//std::cout << "Move Posi: " << movVector->x << " " << movVector->y << " " << movVector->z << std::endl;
+				movActor.lock()->VsetPosition(movVector->x,movVector->y);
+			}
 
-			//boost::shared_ptr<sf::Vector3f> movVector;
-			//p_event->GetProperty(movVector,VECTOR3FPTR);
-			/*
-			movActor.lock()->VsetPosition(movVector->x,movVector->y);*/
-			//std::cout << "Movie name:: " << std::endl;
 			
-		}
+			
+			
+		}break;
 		default:
 			break;
 	}

@@ -20,7 +20,7 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 		case KEY_PRESSED: {
 			//std::cout << "Key Pressed Event beim SceneManager angekommen!   ";
 			sf::Keyboard::Key pressedKey;
-			p_event->GetProperty(pressedKey,KEY);
+			p_event->getProperty(pressedKey,KEY);
 
 			switch (pressedKey) {
 				case sf::Keyboard::Up: {
@@ -51,16 +51,16 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 		case MOUSE_MOVED: {
 			//std::cout << "Mouse Moved Event beim SceneManager angekommen!   ";
 			Pose tmpPos;
-			p_event->GetProperty(tmpPos,POSE);
+			p_event->getProperty(tmpPos,POSE);
 			//std::cout << "Position " << tmpPos << std::endl;
 			break;
 		}
 		case MOUSE_DOWN: {
 			std::cout << "Mouse Down Event beim SceneManager angekommen!   ";
 			Pose tmpPos;
-			p_event->GetProperty(tmpPos,POSE);
+			p_event->getProperty(tmpPos,POSE);
 			int buttonID;
-			p_event->GetProperty(buttonID, MOUSEBUTTON);
+			p_event->getProperty(buttonID, MOUSEBUTTON);
 			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 			
 			break;
@@ -68,9 +68,9 @@ bool SceneManager::VprocessEvent(EventPtr p_event)
 		case MOUSE_UP: {
 			std::cout << "Mouse Up Event beim SceneManager angekommen!   ";
 			Pose tmpPos;
-			p_event->GetProperty(tmpPos,POSE);
+			p_event->getProperty(tmpPos,POSE);
 			int buttonID;
-			p_event->GetProperty(buttonID, MOUSEBUTTON);
+			p_event->getProperty(buttonID, MOUSEBUTTON);
 			std::cout << "Position " << tmpPos << " and ButtonID:" << buttonID << std::endl;
 			if(buttonID == sf::Mouse::Button::Left)
 				m_player->moveCurrentActorAbsolute(tmpPos.getX(), tmpPos.getY());
