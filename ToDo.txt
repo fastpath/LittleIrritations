@@ -4,3 +4,8 @@ Interface fur Actors mit Properties - done
 
 //Pathfinder, Pointer auf Funktionsvariable
 //eigene Vektorklasse
+
+
+Animation
+
+

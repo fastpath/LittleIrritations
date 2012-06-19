@@ -14,11 +14,15 @@ class DrawableActor : public MovableActor, public sf::Sprite
 public:
 	DrawableActor(void);
 	DrawableActor(int p_id);
-
+	
 	virtual void VsetPosition(float p_x, float p_y, float p_z);
 	virtual void VsetPosition(float p_x, float p_y);
 	virtual void Vupdate(float p_deltaMs);
 
 	~DrawableActor(void);
+
+private:
+	std::map<std::string,boost::shared_ptr<sf::Texture>[]> m_manimationArray;
+	boost::shared_ptr<sf::Texture> m_activeAnimCycle[];
 };
 

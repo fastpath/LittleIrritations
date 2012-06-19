@@ -126,6 +126,14 @@ DrawableActorWeakPtr ActorManager::getNewDrawableActor(const std::string& p_acto
 				//std::cout << "acc  " << x << ", " << y << ", " << rot << std::endl;
 				movie->accelerate(Pose(x,y,rot));
 			}
+			if (actor.child("animations").empty() == 0)
+			{
+				pugi::xml_node root = actor.child("animations");
+				for (pugi::xml_node animation = root.child("actor"); actor; actor = actor.next_sibling("actor"))
+				{
+
+				}
+			}
 			ActorManager::addActor(movie);
 			return DrawableActorWeakPtr(movie);
 		}

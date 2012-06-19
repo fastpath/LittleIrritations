@@ -48,12 +48,14 @@ void PathAnimator::VonInit(void)
 
 		float resultTime = (length/(actorWalkspeed*lineWalkspeed));
 
-		//std::cout << "currLine " << i << " resultTime " << resultTime << std::endl;
+		std::cout << "currLine " << i << " resultTime " << resultTime << std::endl;
 
 		m_pathDuration += resultTime;
 
 		m_lineWalkTimes.push_back(resultTime);
 	}
+
+	std::cout << "PathDuration: " << m_pathDuration << std::endl;
 	unPause();
 }
 
