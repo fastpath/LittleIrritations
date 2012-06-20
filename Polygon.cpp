@@ -12,37 +12,103 @@ Polygon::~Polygon(void)
 
 void Polygon::addPoint(float p_x, float p_y)
 {
-	m_points.push_back(boost::shared_ptr<sf::Vector2f>(new sf::Vector2f(p_x,p_y)));
+	m_points.push_back(boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(p_x,p_y,0.0f)));
+	updateInternals();
 }
 
 void Polygon::addPoint(sf::Vector2f& p_point)
 {
-	m_points.push_back(boost::shared_ptr<sf::Vector2f>(&p_point));
+	m_points.push_back(boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(p_point.x,p_point.y,0.0f)));
+	updateInternals();
+}
+
+void Polygon::updateInternals(void)
+{
+	int pointsSize = m_points.size();
+	boost::shared_ptr<sf::Vector3f> newPoint = m_points[pointsSize-1];
+
+	if(newPoint->x > m_maxX)
+	{
+		m_maxX = newPoint->x;
+	}
+	if(newPoint->y > m_maxY)
+	{
+		m_maxY = newPoint->y;
+	}
+	if(newPoint->x < m_minX)
+	{
+		m_minX = newPoint->x;
+	}
+	if(newPoint->y < m_minY)
+	{
+		m_minY = newPoint->y;
+	}
+	
+	if(pointsSize > 1)
+	{
+		if(m_lines.size() > 0)
+		{
+			m_lines.erase(m_lines.end()-1);
+		}
+		PropertyLinePtr pNewLine = PropertyLinePtr(new PropertyLine(newPoint,m_points[pointsSize-2]));
+		PropertyLinePtr pNewLine2 = PropertyLinePtr(new PropertyLine(newPoint,m_points[0]));
+		m_lines.push_back(pNewLine);
+		m_lines.push_back(pNewLine2);
+	}
 }
 
 bool Polygon::isIn(float p_x, float p_y)
 {
-	return true;
+
+	int hitCounter = 0;
+
+	for(std::vector<PropertyLinePtr>::iterator itLine = m_lines.begin(); itLine != m_lines.end(); ++itLine)
+	{
+		PropertyLinePtr currLine = *itLine;
+		boost::shared_ptr<sf::Vector3f> startPoint = currLine->getStartPoint();
+		boost::shared_ptr<sf::Vector3f> lineVec = currLine->getPathVector();
+
+		float tX = (p_x-startPoint->x)/lineVec->x;
+		if(tX < 0.0f || tX > 1.0f)
+		{
+			continue;
+		}
+		if ((startPoint->y + tX * lineVec->y) > p_y)
+		{
+			hitCounter++;
+		}
+	}
+	if ( hitCounter == 0 || hitCounter % 2 == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 bool Polygon::isIn(sf::Vector2f& p_point)
 {
-	return true;
+	return isIn(p_point.x, p_point.y);
 }
 
 bool Polygon::isIn(sf::Vector2f& p_start, sf::Vector2f& p_end)
 {
+
+
+
 	return true;
 }
 
 void Polygon::draw(boost::shared_ptr<sf::RenderWindow> p_app) const
 {
-	for (int i=0; i < m_points.size(); ++i)
+	for (int i=0; i < m_lines.size(); ++i)
 	{
-		sf::Vector2f point1 = *(m_points[i]);
-		sf::Vector2f point2 = *(m_points[(i+1)%(m_points.size())]);
+		PropertyLinePtr currLine = m_lines[i];
+		sf::Vector2f point1 = sf::Vector2f(currLine->getStartPoint()->x,currLine->getStartPoint()->y);
 		
-		sf::Vector2f dir = point2-point1;
+		sf::Vector2f dir = sf::Vector2f(currLine->getPathVector()->x,currLine->getPathVector()->y);;
 		float length = std::sqrt(dir.x*dir.x+dir.y*dir.y);
 		dir.x = dir.x/length;
 		dir.y = dir.y/length;
@@ -60,7 +126,7 @@ void Polygon::draw(boost::shared_ptr<sf::RenderWindow> p_app) const
 
 	for (int i=0; i < m_points.size(); ++i)
 	{
-		sf::Vector2f point1 = *(m_points[i]);
+		sf::Vector2f point1 = sf::Vector2f(m_points[i]->x,m_points[i]->y);
 		float width = 10.0f;
 		sf::RectangleShape rectangle;
 		rectangle.setSize(sf::Vector2f(10,10));

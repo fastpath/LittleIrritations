@@ -85,6 +85,29 @@ void Screen::initializeFromXML(char* p_fileName)
 		}
 		m_pathPolygons.push_back(pPathPolygon);
 	}
+
+	pugi::xml_node xObstaclePolygons = m_root.child("obstaclePolygons");
+	for (pugi::xml_node xItObsPolygon = xObstaclePolygons.child("obstaclePolygon"); xItObsPolygon; xItObsPolygon = xItObsPolygon.next_sibling("obstaclePolygon"))
+	{
+		PolygonPtr pObstaclePolygon = PolygonPtr(new Polygon());
+		int pointCount = 0;
+		for (pugi::xml_node xItPoint = xItObsPolygon.child("point"); xItPoint; xItPoint = xItPoint.next_sibling("point"))
+		{
+			std::stringstream x_sstr;
+			float x;
+			x_sstr << xItPoint.attribute("x").value();
+			x_sstr >> x;
+			
+			std::stringstream y_sstr;
+			float y;
+			y_sstr << xItPoint.attribute("y").value();
+			y_sstr >> y;
+
+			pObstaclePolygon->addPoint(x,y);
+			//std::cout << "Add Point  (" << x << "," << y << ")" << std::endl;
+		}
+		m_obstaclePolygons.push_back(pObstaclePolygon);
+	}
 }
 
 bool Screen::isReady(void)
@@ -105,6 +128,16 @@ PolygonPtr Screen::getPathPolygon(int p_index)
 int Screen::getPathPolygonCount(void)
 {
 	return m_pathPolygons.size();
+}
+
+PolygonPtr Screen::getObstaclePolygon(int p_index)
+{
+	return m_obstaclePolygons[p_index];
+}
+
+int Screen::getObstaclePolygonCount(void)
+{
+	return m_obstaclePolygons.size();
 }
 
 void Screen::checkNewActor(EventPtr p_event)

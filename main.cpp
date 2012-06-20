@@ -92,6 +92,15 @@ void initialize(void)
 	testChamber = boost::shared_ptr<Screen>(new Screen());
 	testChamber->initializeFromXML("Levels.xml");
 
+	if ( testChamber->getPathPolygon(0)->isIn(730.0f,920.0f))
+	{
+		std::cout << "ist drinne!!!" << std::endl;
+	}
+	else
+	{
+		std::cout << "ist nicht drinne!!!" << std::endl;
+	}
+
 	procMngr = boost::shared_ptr<MyProcessManager>(new MyProcessManager());
 	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(m_actMgr));
 
@@ -144,8 +153,14 @@ int main ()
 			for (int i=0; i<testChamber->getPathPolygonCount(); ++i)
 			{
 				testChamber->getPathPolygon(i)->draw(Window);
+				
 			}
 			
+			for (int i=0; i<testChamber->getObstaclePolygonCount(); ++i)
+			{
+				testChamber->getObstaclePolygon(i)->draw(Window);
+			}
+
             frameTime -= DT;
             t += deltaTime;
          }

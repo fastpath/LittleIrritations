@@ -17,6 +17,11 @@ boost::shared_ptr<sf::Vector3f> PropertyLine::getStartPoint(void)
 	return m_pStartPoint;
 }
 
+boost::shared_ptr<sf::Vector3f> PropertyLine::getEndPoint(void)
+{
+	return m_pEndPoint;
+}
+
 boost::shared_ptr<sf::Vector3f> PropertyLine::getPathVector(void)
 {
 	return boost::shared_ptr<sf::Vector3f>(new sf::Vector3f( (*m_pEndPoint) - (*m_pStartPoint) ) );

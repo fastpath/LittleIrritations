@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "PropertyLine.h"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <boost/shared_ptr.hpp>
@@ -16,6 +17,7 @@ public:
 
 	void addPoint(float p_x, float p_y);
 	void addPoint(sf::Vector2f& p_point);
+	void addPoint(sf::Vector3f& p_point);
 
 	bool isIn(float p_x, float p_y);
 	bool isIn(sf::Vector2f& p_point);
@@ -27,6 +29,15 @@ public:
 
 
 private:
-	std::vector<boost::shared_ptr<sf::Vector2f>> m_points;
+	std::vector<boost::shared_ptr<sf::Vector3f>> m_points;
+	std::vector<PropertyLinePtr> m_lines;
+
+	void updateInternals(void);
+
+	float m_maxX;
+	float m_minX;
+
+	float m_maxY;
+	float m_minY;
 };
 

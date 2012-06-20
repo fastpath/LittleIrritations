@@ -13,6 +13,7 @@ public:
 	~PropertyLine(void);
 
 	boost::shared_ptr<sf::Vector3f> getStartPoint(void);
+	boost::shared_ptr<sf::Vector3f> getEndPoint(void);
 	boost::shared_ptr<sf::Vector3f> getPathVector(void);
 
 private:
