@@ -16,9 +16,12 @@ public:
 	boost::shared_ptr<sf::Vector3f> getEndPoint(void);
 	boost::shared_ptr<sf::Vector3f> getPathVector(void);
 
+	float distanceToPoint(boost::shared_ptr<sf::Vector3f> p_pPoint);
+
 private:
 	boost::shared_ptr<sf::Vector3f> m_pStartPoint;
 	boost::shared_ptr<sf::Vector3f> m_pEndPoint;
+	boost::shared_ptr<sf::Vector3f> m_pathVector;
 
 };
 

@@ -120,7 +120,7 @@ void initialize(void)
 	pathAnim->addLine(line2);
 	pathAnim->addLine(line3);
 
-	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
+	//procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
 }
 
 int main ()

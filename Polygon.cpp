@@ -135,3 +135,21 @@ void Polygon::draw(boost::shared_ptr<sf::RenderWindow> p_app) const
 		p_app->draw(rectangle);
 	}
 }
+
+void Polygon::definePathPoints(void)
+{
+	if (m_points.size() < 4)
+	{
+		return;
+	}
+	for (std::vector<boost::shared_ptr<sf::Vector3f>>::iterator itPoint = m_points.begin(); itPoint != m_points.end()-2; ++itPoint)
+	{
+		boost::shared_ptr<sf::Vector3f> startPoint = *itPoint;
+		boost::shared_ptr<sf::Vector3f> currPoint = *(itPoint+1);
+		boost::shared_ptr<sf::Vector3f> endPoint = *(itPoint+2);
+
+
+
+	}
+
+}

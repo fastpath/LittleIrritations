@@ -27,10 +27,14 @@ public:
 	unsigned int GetPointCount() const;
 	sf::Vector2f GetPoint(unsigned int index) const;
 
+	void definePathPoints(void);
+
 
 private:
 	std::vector<boost::shared_ptr<sf::Vector3f>> m_points;
 	std::vector<PropertyLinePtr> m_lines;
+
+	std::vector<bool> m_goodPoints;
 
 	void updateInternals(void);
 
