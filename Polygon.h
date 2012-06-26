@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <boost/shared_ptr.hpp>
 #include <cmath>
+#include "PropertyPoint.h"
 
 class Polygon;
 typedef boost::shared_ptr<Polygon> PolygonPtr;
@@ -20,6 +21,7 @@ public:
 	void addPoint(sf::Vector3f& p_point);
 
 	bool isIn(float p_x, float p_y);
+	bool isIn(boost::shared_ptr<sf::Vector3f> p_pPoint);
 	bool isIn(sf::Vector2f& p_point);
 	bool isIn(sf::Vector2f& p_start, sf::Vector2f& p_end);
 
@@ -31,10 +33,8 @@ public:
 
 
 private:
-	std::vector<boost::shared_ptr<sf::Vector3f>> m_points;
+	std::vector<PropertyPointPtr> m_points;
 	std::vector<PropertyLinePtr> m_lines;
-
-	std::vector<bool> m_goodPoints;
 
 	void updateInternals(void);
 
@@ -43,5 +43,7 @@ private:
 
 	float m_maxY;
 	float m_minY;
+
+	bool m_ready; //all Points are analyzed for Pathfinding
 };
 

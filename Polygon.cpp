@@ -3,6 +3,7 @@
 
 Polygon::Polygon(void)
 {
+	m_ready = false;
 }
 
 
@@ -12,13 +13,13 @@ Polygon::~Polygon(void)
 
 void Polygon::addPoint(float p_x, float p_y)
 {
-	m_points.push_back(boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(p_x,p_y,0.0f)));
+	m_points.push_back(PropertyPointPtr(new sf::Vector3f(p_x,p_y,0.0f)));
 	updateInternals();
 }
 
 void Polygon::addPoint(sf::Vector2f& p_point)
 {
-	m_points.push_back(boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(p_point.x,p_point.y,0.0f)));
+	m_points.push_back(PropertyPointPtr(new sf::Vector3f(p_point.x,p_point.y,0.0f)));
 	updateInternals();
 }
 
@@ -93,6 +94,11 @@ bool Polygon::isIn(sf::Vector2f& p_point)
 	return isIn(p_point.x, p_point.y);
 }
 
+bool Polygon::isIn(boost::shared_ptr<sf::Vector3f> p_pPoint)
+{
+	return isIn(p_pPoint->x,p_pPoint->y);
+}
+
 bool Polygon::isIn(sf::Vector2f& p_start, sf::Vector2f& p_end)
 {
 
@@ -138,18 +144,53 @@ void Polygon::draw(boost::shared_ptr<sf::RenderWindow> p_app) const
 
 void Polygon::definePathPoints(void)
 {
-	if (m_points.size() < 4)
+	if (m_ready)
 	{
 		return;
 	}
-	for (std::vector<boost::shared_ptr<sf::Vector3f>>::iterator itPoint = m_points.begin(); itPoint != m_points.end()-2; ++itPoint)
+	
+	if (m_points.size() < 4)
 	{
-		boost::shared_ptr<sf::Vector3f> startPoint = *itPoint;
-		boost::shared_ptr<sf::Vector3f> currPoint = *(itPoint+1);
-		boost::shared_ptr<sf::Vector3f> endPoint = *(itPoint+2);
-
-
-
+		for (auto itPoint = m_points.begin(); itPoint != m_points.end(); ++itPoint)
+		{
+			(*itPoint)->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
+		}
+		return;
 	}
+	
+	for (auto itPoint = m_points.begin(); itPoint != m_points.end(); ++itPoint)
+	{	
+		PropertyPointPtr startPoint = *itPoint;
+		PropertyPointPtr currPoint = PropertyPointPtr();
+		PropertyPointPtr endPoint = PropertyPointPtr();
+		
+		if (itPoint == m_points.end()-1)
+		{
+			currPoint = *(itPoint+1);
+			endPoint = *m_points.begin();
+		}
+		else if (itPoint == m_points.end())
+		{
+			currPoint = *m_points.begin();
+			endPoint = *(m_points.begin()+1);
+
+		}
+		else
+		{
+			PropertyPointPtr startPoint = *itPoint;
+			PropertyPointPtr currPoint = *(itPoint+1);
+			PropertyPointPtr endPoint = *(itPoint+2);
+		}
+
+		PropertyLinePtr currLine(new PropertyLine(startPoint,endPoint));
+
+		float distance = currLine->distanceToPoint(currPoint);
+
+		if (distance < 0) {
+			currPoint->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
+		}
+	}
+
+	m_ready = true;
 
 }

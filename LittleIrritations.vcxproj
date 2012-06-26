@@ -104,6 +104,7 @@
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="PropertyLine.cpp" />
+    <ClCompile Include="PropertyPoint.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="libs\pugixml\pugixml.cpp" />
     <ClCompile Include="main.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="PropertyLine.h" />
+    <ClInclude Include="PropertyPoint.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="libs\pugixml\pugixml.hpp" />
     <ClInclude Include="DrawableActor.h" />

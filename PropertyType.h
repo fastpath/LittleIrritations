@@ -10,5 +10,6 @@ enum PropertyType
 	LINE_WALKSPEED,
 	ACTOR_WALKSPEED,
 	VECTOR3FPTR,
-	MOVABLEACTORPTR
+	MOVABLEACTORPTR,
+	PATHPOINT //boolean for Pathfinding with Polygons
 };

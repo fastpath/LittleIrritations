@@ -36,7 +36,7 @@ bool PathFinder::findPath(void)
 
 		}
 	}
-	for (std::list<PolygonPtr>::iterator itPathPolygon = p_pathPolygons.begin(); itPathPolygon != p_pathPolygons.end(); ++itPathPolygon)
+	for (std::list<PolygonPtr>::iterator itPathPolygon = m_pathPolygons.begin(); itPathPolygon != m_pathPolygons.end(); ++itPathPolygon)
 	{
 
 
