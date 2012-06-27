@@ -15,6 +15,11 @@ public:
 		//PropertyPtr GetProperty(PropertyType p_type);
 	template <typename T>
 	void getProperty(T& p_value, PropertyType p_type) {
+		if (!hasProperty(p_type))
+		{
+			std::cerr << "requested property is not available" << std::endl;
+			return;
+		}
 		PropertyPtr prop = m_properties[p_type];
 		boost::shared_ptr<TProperty<T>> tmp = boost::shared_static_cast<TProperty<T>>(prop);
 		p_value = tmp->GetValue();

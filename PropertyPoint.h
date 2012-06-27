@@ -10,6 +10,7 @@ class PropertyPoint : public sf::Vector3f, public IPropertyActor
 {
 public:
 	PropertyPoint(float p_x, float p_y, float p_z);
+	PropertyPoint(void);
 	~PropertyPoint(void);
 };
 

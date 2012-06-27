@@ -6,6 +6,11 @@ Polygon::Polygon(void)
 	m_ready = false;
 }
 
+Polygon::Polygon(bool p_pathPolygon)
+{
+	m_ready = false;
+	m_pathPolygon = p_pathPolygon;
+}
 
 Polygon::~Polygon(void)
 {
@@ -23,6 +28,32 @@ void Polygon::addPoint(sf::Vector2f& p_point)
 	updateInternals();
 }
 
+unsigned int Polygon::getPointCount(void) const
+{
+	return m_points.size();
+}
+
+PropertyPointPtr Polygon::getPoint(unsigned int index) const
+{
+	return m_points[index];
+}
+
+unsigned int Polygon::getPathPointCount(void) const
+{
+	return m_pathPoints.size();
+}
+
+PropertyPointPtr Polygon::getPathPoint(unsigned int index) const
+{
+	if (index >= this->getPathPointCount() )
+	{
+		std::cerr << "index out of bounds of the pathPoints" << std::endl;
+		return PropertyPointPtr();
+	}
+	return m_pathPoints[index];
+}
+
+//updates the max-values and lines of the polygon
 void Polygon::updateInternals(void)
 {
 	int pointsSize = m_points.size();
@@ -102,9 +133,21 @@ bool Polygon::isIn(boost::shared_ptr<sf::Vector3f> p_pPoint)
 bool Polygon::isIn(sf::Vector2f& p_start, sf::Vector2f& p_end)
 {
 
-
-
 	return true;
+}
+
+bool Polygon::intersectsWith(PropertyLinePtr p_pOtherLine)
+{
+	for (auto itLine = m_lines.begin(); itLine != m_lines.end(); ++itLine)
+	{
+		PropertyLinePtr currLine = *itLine;
+		if (currLine->intersectsWith(p_pOtherLine))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Polygon::draw(boost::shared_ptr<sf::RenderWindow> p_app) const
@@ -154,6 +197,7 @@ void Polygon::definePathPoints(void)
 		for (auto itPoint = m_points.begin(); itPoint != m_points.end(); ++itPoint)
 		{
 			(*itPoint)->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
+			m_pathPoints.push_back(*itPoint);
 		}
 		return;
 	}
@@ -186,8 +230,15 @@ void Polygon::definePathPoints(void)
 
 		float distance = currLine->distanceToPoint(currPoint);
 
-		if (distance < 0) {
+		if (this->m_pathPolygon && distance < 0)
+		{
 			currPoint->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
+			m_pathPoints.push_back(currPoint);
+		}
+		else if (!this->m_pathPolygon && distance > 0)
+		{
+			currPoint->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
+			m_pathPoints.push_back(currPoint);
 		}
 	}
 

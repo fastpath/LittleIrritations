@@ -2,8 +2,6 @@
 #include "Polygon.h"
 #include <list>
 
-
-
 /**
 *
 * Is able to find a path between two points in any polygon

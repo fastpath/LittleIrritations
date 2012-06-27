@@ -20,6 +20,7 @@ public:
 	PropertyPointPtr getPathVector(void);
 
 	float distanceToPoint(PropertyPointPtr p_pPoint);
+	PropertyPointPtr intersectsWith(PropertyLinePtr p_pOtherLine);
 
 private:
 	PropertyPointPtr m_pStartPoint;

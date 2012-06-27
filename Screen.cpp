@@ -66,7 +66,7 @@ void Screen::initializeFromXML(char* p_fileName)
 	pugi::xml_node xPathPolygons = m_root.child("pathPolygons");
 	for (pugi::xml_node xItPolygon = xPathPolygons.child("pathPolygon"); xItPolygon; xItPolygon = xItPolygon.next_sibling("pathPolygon"))
 	{
-		PolygonPtr pPathPolygon = PolygonPtr(new Polygon());
+		PolygonPtr pPathPolygon = PolygonPtr(new Polygon(true));
 		int pointCount = 0;
 		for (pugi::xml_node xItPoint = xItPolygon.child("point"); xItPoint; xItPoint = xItPoint.next_sibling("point"))
 		{
@@ -89,7 +89,7 @@ void Screen::initializeFromXML(char* p_fileName)
 	pugi::xml_node xObstaclePolygons = m_root.child("obstaclePolygons");
 	for (pugi::xml_node xItObsPolygon = xObstaclePolygons.child("obstaclePolygon"); xItObsPolygon; xItObsPolygon = xItObsPolygon.next_sibling("obstaclePolygon"))
 	{
-		PolygonPtr pObstaclePolygon = PolygonPtr(new Polygon());
+		PolygonPtr pObstaclePolygon = PolygonPtr(new Polygon(false));
 		int pointCount = 0;
 		for (pugi::xml_node xItPoint = xItObsPolygon.child("point"); xItPoint; xItPoint = xItPoint.next_sibling("point"))
 		{
