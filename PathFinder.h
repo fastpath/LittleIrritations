@@ -15,19 +15,24 @@ public:
 	PathFinder(void);
 	~PathFinder(void);
 
-	void initialize(std::list<PolygonPtr>& p_pathPolygons, std::list<PolygonPtr>& p_obstaclePolygons, boost::shared_ptr<sf::Vector3f> p_start, boost::shared_ptr<sf::Vector3f> p_end); 
+	const void initialize(std::vector<PolygonPtr>& p_pathPolygons, std::vector<PolygonPtr>& p_obstaclePolygons, PropertyPointPtr p_start, PropertyPointPtr p_end); 
 
-	bool findPath(void);
+	std::vector<PropertyPointPtr> findPath(void);
 
 private:
-	std::list<PolygonPtr>& m_pathPolygons;
-	std::list<PolygonPtr>& m_obstaclePolygons;
+	std::vector<PolygonPtr> m_pathPolygons;
+	std::vector<PolygonPtr> m_obstaclePolygons;
 
-	boost::shared_ptr<sf::Vector3f> m_start;
-	boost::shared_ptr<sf::Vector3f> m_end;
+	PropertyPointPtr m_start;
+	PropertyPointPtr m_end;
 
 	PolygonPtr m_startPolygon;
 	std::list<PolygonPtr> m_currentObstacles;
 	std::list<PropertyPointPtr> m_currentObstaclePathPoints;
+	std::map<PropertyPointPtr,std::list<PropertyPointPtr> > m_viewList;
+
+	bool collidesWithAnyLine(PropertyLinePtr p_pLine);
+
+	std::vector<PropertyPointPtr> findPathRec(std::vector<PropertyPointPtr> p_currPoints);
 };
 

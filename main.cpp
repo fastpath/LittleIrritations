@@ -8,6 +8,7 @@
 #include "AbstractActor.h"
 #include "DrawableActor.h"
 #include "Pose.h"
+#include "PropertyPoint.h"
 #include "SceneManager.h"
 #include "Player.h"
 #include "ActorManager.h"
@@ -17,6 +18,7 @@
 #include "Screen.h"
 #include "MyProcessManager.h"
 #include "PathAnimator.h"
+#include "PathFinder.h"
 
 const int FRAMERATE = 60;
 const float DT = 1.0/FRAMERATE;
@@ -92,6 +94,7 @@ void initialize(void)
 	testChamber = boost::shared_ptr<Screen>(new Screen());
 	testChamber->initializeFromXML("Levels.xml");
 
+
 	if ( testChamber->getPathPolygon(0)->isIn(730.0f,920.0f))
 	{
 		std::cout << "ist drinne!!!" << std::endl;
@@ -100,27 +103,50 @@ void initialize(void)
 	{
 		std::cout << "ist nicht drinne!!!" << std::endl;
 	}
+	PropertyPointPtr point10 = PropertyPointPtr(new PropertyPoint(540,959,100));
+	PropertyPointPtr point01 = PropertyPointPtr(new PropertyPoint(1809,1019,100));
+	PathFinder* testPathFinder = new PathFinder();
+	testPathFinder->initialize(testChamber->m_pathPolygons,testChamber->m_obstaclePolygons,point10,point01);
+	std::vector<PropertyPointPtr> pointList = testPathFinder->findPath();
+
+	testChamber->getPathPolygon(0)->definePathPoints();
+	for (int i=0; i<testChamber->getPathPolygon(0)->getPathPointCount(); ++i)
+	{
+		std::cout << "goodPoint: " << testChamber->getPathPolygon(0)->getPathPoint(i)->x << "  " << testChamber->getPathPolygon(0)->getPathPoint(i)->y << "  " << testChamber->getPathPolygon(0)->getPathPoint(i)->z << std::endl;
+	}
 
 	procMngr = boost::shared_ptr<MyProcessManager>(new MyProcessManager());
 	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(m_actMgr));
 
 	m_evtMgr->VAddEventListener(testChamber, 1, NEW_ACTOR);
 
-	boost::shared_ptr<sf::Vector3f> point1 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(0,0,0));
-	boost::shared_ptr<sf::Vector3f> point2 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(100,100,100));
-	boost::shared_ptr<sf::Vector3f> point3 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(300,300,300));
-	boost::shared_ptr<sf::Vector3f> point4 = boost::shared_ptr<sf::Vector3f>(new sf::Vector3f(800,300,300));
+	PropertyPointPtr point1 = PropertyPointPtr(new PropertyPoint(0,0,0));
+	PropertyPointPtr point2 = PropertyPointPtr(new PropertyPoint(100,100,100));
+	PropertyPointPtr point3 = PropertyPointPtr(new PropertyPoint(300,300,300));
+	PropertyPointPtr point4 = PropertyPointPtr(new PropertyPoint(800,300,300));
 
 	PropertyLinePtr line1 = PropertyLinePtr(new PropertyLine(point1,point2));
+
+
+	//std::cout << "distance 10 " << line1->distanceToPoint(point10) << " distance 01 " << line1->distanceToPoint(point01) << std::endl;
+
 	PropertyLinePtr line2 = PropertyLinePtr(new PropertyLine(point2,point3));
 	PropertyLinePtr line3 = PropertyLinePtr(new PropertyLine(point3,point4));
 
 	boost::shared_ptr<PathAnimator> pathAnim = boost::shared_ptr<PathAnimator>(new PathAnimator(MovableActorWeakPtr(boost::shared_dynamic_cast<MovableActor>(cody.lock()))));
-	pathAnim->addLine(line1);
-	pathAnim->addLine(line2);
-	pathAnim->addLine(line3);
+	PropertyPointPtr lastPoint = (*pointList.begin());
+	for (auto itPathPoint = pointList.begin()+1; itPathPoint != pointList.end(); ++itPathPoint)
+	{
+		PropertyLinePtr tempLine = PropertyLinePtr(new PropertyLine(lastPoint, *itPathPoint));
+		pathAnim->addLine(tempLine);
+		lastPoint = *itPathPoint;
+	}
+	
+	//pathAnim->addLine(line1);
+	//pathAnim->addLine(line2);
+	//pathAnim->addLine(line3);
 
-	//procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
+	procMngr->attachProcess(boost::shared_dynamic_cast<MyProcess>(pathAnim));
 }
 
 int main ()

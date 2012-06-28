@@ -27,12 +27,14 @@ public:
 	PolygonPtr getObstaclePolygon(int p_index);
 	int getObstaclePolygonCount(void);
 
+	std::vector<PolygonPtr> m_pathPolygons;
+	std::vector<PolygonPtr> m_obstaclePolygons;
+
 private:
 	std::vector<ActorPtr> m_staticActors;
 	std::vector<ActorPtr> m_interactiveActors;
 
-	std::vector<PolygonPtr> m_pathPolygons;
-	std::vector<PolygonPtr> m_obstaclePolygons;
+
 
 	std::map<std::string,bool> m_neededActors;
 	std::map<int,ActorPtr> m_screenActors;

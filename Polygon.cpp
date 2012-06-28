@@ -18,13 +18,13 @@ Polygon::~Polygon(void)
 
 void Polygon::addPoint(float p_x, float p_y)
 {
-	m_points.push_back(PropertyPointPtr(new sf::Vector3f(p_x,p_y,0.0f)));
+	m_points.push_back(PropertyPointPtr(new PropertyPoint(p_x,p_y,0.0f)));
 	updateInternals();
 }
 
 void Polygon::addPoint(sf::Vector2f& p_point)
 {
-	m_points.push_back(PropertyPointPtr(new sf::Vector3f(p_point.x,p_point.y,0.0f)));
+	m_points.push_back(PropertyPointPtr(new PropertyPoint(p_point.x,p_point.y,0.0f)));
 	updateInternals();
 }
 
@@ -33,7 +33,7 @@ unsigned int Polygon::getPointCount(void) const
 	return m_points.size();
 }
 
-PropertyPointPtr Polygon::getPoint(unsigned int index) const
+const PropertyPointPtr& Polygon::getPoint(unsigned int index) const
 {
 	return m_points[index];
 }
@@ -43,7 +43,7 @@ unsigned int Polygon::getPathPointCount(void) const
 	return m_pathPoints.size();
 }
 
-PropertyPointPtr Polygon::getPathPoint(unsigned int index) const
+const PropertyPointPtr& Polygon::getPathPoint(unsigned int index) const
 {
 	if (index >= this->getPathPointCount() )
 	{
@@ -57,7 +57,7 @@ PropertyPointPtr Polygon::getPathPoint(unsigned int index) const
 void Polygon::updateInternals(void)
 {
 	int pointsSize = m_points.size();
-	boost::shared_ptr<sf::Vector3f> newPoint = m_points[pointsSize-1];
+	PropertyPointPtr newPoint = m_points[pointsSize-1];
 
 	if(newPoint->x > m_maxX)
 	{
@@ -201,33 +201,32 @@ void Polygon::definePathPoints(void)
 		}
 		return;
 	}
-	
+
 	for (auto itPoint = m_points.begin(); itPoint != m_points.end(); ++itPoint)
 	{	
 		PropertyPointPtr startPoint = *itPoint;
 		PropertyPointPtr currPoint = PropertyPointPtr();
 		PropertyPointPtr endPoint = PropertyPointPtr();
-		
-		if (itPoint == m_points.end()-1)
+
+		if (itPoint == m_points.end()-2)
 		{
 			currPoint = *(itPoint+1);
 			endPoint = *m_points.begin();
 		}
-		else if (itPoint == m_points.end())
+		else if (itPoint == m_points.end()-1)
 		{
 			currPoint = *m_points.begin();
 			endPoint = *(m_points.begin()+1);
-
 		}
 		else
 		{
-			PropertyPointPtr startPoint = *itPoint;
-			PropertyPointPtr currPoint = *(itPoint+1);
-			PropertyPointPtr endPoint = *(itPoint+2);
+			startPoint = *itPoint;
+			currPoint = *(itPoint+1);
+			endPoint = *(itPoint+2);
+
 		}
 
 		PropertyLinePtr currLine(new PropertyLine(startPoint,endPoint));
-
 		float distance = currLine->distanceToPoint(currPoint);
 
 		if (this->m_pathPolygon && distance < 0)
@@ -240,6 +239,7 @@ void Polygon::definePathPoints(void)
 			currPoint->addProperty(PropertyPtr(new TProperty<bool>(PATHPOINT,true)));
 			m_pathPoints.push_back(currPoint);
 		}
+			
 	}
 
 	m_ready = true;

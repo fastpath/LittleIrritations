@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LittleIrritations", "LittleIrritations.vcxproj", "{BC257763-DEC9-484A-B132-C5B827EDDC12}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LittleIrritationsTest", "LittleIrritationsTest\LittleIrritationsTest.vcxproj", "{304B654C-E6BC-4959-A007-517EDB3C07C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9497B15-DD96-4293-8F5B-9E3E42136250}"
+	ProjectSection(SolutionItems) = preProject
+		LittleIrritations.vsmdi = LittleIrritations.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = LittleIrritations.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
@@ -13,6 +25,10 @@ Global
 		{BC257763-DEC9-484A-B132-C5B827EDDC12}.Debug|Win32.Build.0 = Debug|Win32
 		{BC257763-DEC9-484A-B132-C5B827EDDC12}.Release|Win32.ActiveCfg = Release|Win32
 		{BC257763-DEC9-484A-B132-C5B827EDDC12}.Release|Win32.Build.0 = Release|Win32
+		{304B654C-E6BC-4959-A007-517EDB3C07C2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{304B654C-E6BC-4959-A007-517EDB3C07C2}.Debug|Win32.Build.0 = Debug|Win32
+		{304B654C-E6BC-4959-A007-517EDB3C07C2}.Release|Win32.ActiveCfg = Release|Win32
+		{304B654C-E6BC-4959-A007-517EDB3C07C2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

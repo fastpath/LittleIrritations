@@ -31,10 +31,10 @@ public:
 	void draw(boost::shared_ptr<sf::RenderWindow> p_app) const;
 
 	unsigned int getPointCount() const;
-	PropertyPointPtr getPoint(unsigned int index) const;
+	const PropertyPointPtr& getPoint(unsigned int index) const;
 
 	unsigned int getPathPointCount() const;
-	PropertyPointPtr getPathPoint(unsigned int index) const;
+	const PropertyPointPtr& getPathPoint(unsigned int index) const;
 
 	void definePathPoints(void);
 
