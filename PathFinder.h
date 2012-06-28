@@ -22,7 +22,12 @@ public:
 private:
 	std::list<PolygonPtr>& m_pathPolygons;
 	std::list<PolygonPtr>& m_obstaclePolygons;
+
 	boost::shared_ptr<sf::Vector3f> m_start;
 	boost::shared_ptr<sf::Vector3f> m_end;
+
+	PolygonPtr m_startPolygon;
+	std::list<PolygonPtr> m_currentObstacles;
+	std::list<PropertyPointPtr> m_currentObstaclePathPoints;
 };
 

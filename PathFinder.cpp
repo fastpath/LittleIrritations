@@ -37,7 +37,7 @@ void PathFinder::initialize(std::list<PolygonPtr>& p_pathPolygons, std::list<Pol
 		PolygonPtr currPolygon = *itPathPolygon;
 		if (currPolygon->isIn(m_start))
 		{
-			startPolygon = currPolygon;
+			m_startPolygon = currPolygon;
 		}
 		if (currPolygon->isIn(m_end))
 		{
@@ -46,7 +46,8 @@ void PathFinder::initialize(std::list<PolygonPtr>& p_pathPolygons, std::list<Pol
 		currPolygon->definePathPoints();
 	}
 
-	std::list<PolygonPtr> obstacles;
+
+	//saves obstacles which contain a polygon point or are within the polygon
 	for (auto itObstPolygon = m_obstaclePolygons.begin(); itObstPolygon != m_obstaclePolygons.end(); ++itObstPolygon)
 	{
 		PolygonPtr currObstPolygon;
@@ -55,7 +56,13 @@ void PathFinder::initialize(std::list<PolygonPtr>& p_pathPolygons, std::list<Pol
 			PropertyPointPtr currObstPoint = currObstPolygon->getPoint(i);
 			if (startPolygon->isIn(currObstPoint))
 			{
-				obstacles.push_back(currObstPolygon);
+				m_currentObstacles.push_back(currObstPolygon);
+				
+				for (int i = 0; i < currObstPolygon->getPathPointCount(); ++i)
+				{
+					PropertyPointPtr currObstPathPoint = currObstPolygon->getPathPoint(i);
+					m_currentObstaclePathPoints.push_back(currObstPathPoint);
+				}
 			}
 		}
 
@@ -64,32 +71,81 @@ void PathFinder::initialize(std::list<PolygonPtr>& p_pathPolygons, std::list<Pol
 			PropertyPointPtr currPoint = startPolygon->getPoint(i);
 			if (currObstPolygon->isIn(currPoint))
 			{
-				obstacles.push_back(currObstPolygon);
+				m_currentObstacles.push_back(currObstPolygon);
+				for (int i = 0; i < currObstPolygon->getPathPointCount(); ++i)
+				{
+					PropertyPointPtr currObstPathPoint = currObstPolygon->getPathPoint(i);
+					m_currentObstaclePathPoints.push_back(currObstPathPoint);
+				}
 			}
 		}
 	}
-	obstacles.unique();
+	m_currentObstacles.unique();
+	m_currentObstaclePathPoints.unique();
+
+	std::map<PropertyPointPtr,std::list<PropertyPointPtr> > viewList;
 
 	//checks which points of other obstacles can be seen from the found obstacles 
-	for (auto itObstPolygon = obstacles.begin(); itObstPolygon != obstacles.end(); ++itObstPolygon)
+	for (auto itObstPathPoint = m_currentObstaclePathPoints.begin(); itObstPathPoint != m_currentObstaclePathPoints.end(); ++itObstPathPoint)
 	{
-		PolygonPtr currObstPolygon = *itObstPolygon;
-		for (auto itObstPolygon2 = obstacles.begin(); itObstPolygon2 != obstacles.end(); ++itObstPolygon2)
+		//the obstacle points are connected to all other obstacle Points
+		for (auto itObstPathPoint2 = m_currentObstaclePathPoints.begin(); itObstPathPoint2 != m_currentObstaclePathPoints.end(); ++itObstPathPoint2)
 		{
-			for (int i = 0; i < currObstPolygon->getPathPointCount(); ++i)
+			if (itObstPathPoint == itObstPathPoint2)
 			{
-				PropertyPointPtr currObstPathPoint = currObstPolygon->getPoint(i);
-
-
+				continue;
 			}
 
+			PropertyLinePtr currLine = PropertyLinePtr(new PropertyLine(*itObstPathPoint,*itObstPathPoint2));
+			bool intersection = false;
+			for (auto itObstacle = m_currentObstacles.begin(); itObstacle != m_currentObstacles.end(); ++itObstacle)
+			{
+				if ((*itObstacle)->intersectsWith(currLine))
+				{
+					intersection = true;
+					continue;
+				}
+			}
+
+			if (startPolygon->intersectsWith(currLine))
+			{
+				intersection = true;
+			}
+
+			if (!intersection)
+			{
+				viewList[*itObstPathPoint].push_back(*itObstPathPoint2);
+			}
 		}
 
-		}
+		//the obstacle Point is connected with all Polygon Points
+		for (int i = 0; i < startPolygon->getPathPointCount(); ++i)
+		{
+			PropertyPointPtr currPolyPoint = startPolygon->getPathPoint(i);
+
+			PropertyLinePtr currLine = PropertyLinePtr(new PropertyLine(*itObstPathPoint,currPolyPoint));
+
+			bool intersection = false;
+			for (auto itObstacle = m_currentObstacles.begin(); itObstacle != m_currentObstacles.end(); ++itObstacle)
+			{
+				if ((*itObstacle)->intersectsWith(currLine))
+				{
+					intersection = true;
+					continue;
+				}
+			}
+
+			if (startPolygon->intersectsWith(currLine))
+			{
+				intersection = true;
+			}
+
+			if (!intersection)
+			{
+				viewList[*itObstPathPoint].push_back(currPolyPoint);
+			}
+		}		
 	}
-
-
-
 }
 
 bool PathFinder::findPath(void)
